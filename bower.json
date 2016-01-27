@@ -1,0 +1,19 @@
+{
+  "name": "WS_V5",
+  "version": "5.0.0",
+  "homepage": "https://github.com/xxllxhdj/WS_V5",
+  "authors": [
+    "xuxl <xuxle@yonyou.com>"
+  ],
+  "description": "WS_V5",
+  "main": "app.js",
+  "keywords": [
+    "WS_V5"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "ionic": "~1.2.4",
+    "jquery": "~2.2.0",
+    "ngCordova": "~0.1.24-alpha"
+  }
+}
