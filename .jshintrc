@@ -18,6 +18,7 @@
         "angular": true,
         "ionic": true,
         "cordova": true,
-        "StatusBar": true
+        "StatusBar": true,
+        "workStation": true
     }
 }

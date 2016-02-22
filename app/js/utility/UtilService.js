@@ -1,7 +1,7 @@
 
 angular.module('WorkStation.utility')
 
-    .factory('UtilService', ['APPCONSTANTS', function (APPCONSTANTS) {
+    .factory('UtilService', ['$ocLazyLoad', 'APPCONSTANTS', function ($ocLazyLoad, APPCONSTANTS) {
         var o = {};
 
         o.getAppFileDir = function () {
@@ -9,6 +9,25 @@ angular.module('WorkStation.utility')
         };
         o.getConfigDir = function () {
             return o.getAppFileDir() + '/' + APPCONSTANTS.appName + '/';
+        };
+        o.toAppsURL = function (srcURL, appId) {
+            var childAppRootDir = '';
+            srcURL = appId + '/' + srcURL;
+            if (window.cordova && cordova.file) {
+                childAppRootDir = (cordova.file.externalDataDirectory || cordova.file.documentsDirectory);
+            } else {
+                srcURL = appId + '/' + srcURL;
+            }
+            return childAppRootDir + 'apps/' + srcURL;
+        };
+        o.loadApp = function (appId) {
+            return $ocLazyLoad.load({
+                name: appId,
+                files: [
+                    o.toAppsURL('js/main.js', appId),
+                    o.toAppsURL('css/main.css', appId)
+                ]
+            });
         };
 
         return o;

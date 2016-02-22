@@ -1,8 +1,8 @@
 
 angular.module('WorkStation.services')
 
-    .factory('ConfigService', ['$q', '$cordovaFile', 'UtilService', 'APPCONSTANTS', 
-        function ($q, $cordovaFile, UtilService, APPCONSTANTS) {
+    .factory('ConfigService', ['$q', '$http', '$cordovaFile', 'UtilService', 'APPCONSTANTS', 
+        function ($q, $http, $cordovaFile, UtilService, APPCONSTANTS) {
             var configDefer = $q.defer(),
                 config = {},
                 o = {
@@ -44,7 +44,13 @@ angular.module('WorkStation.services')
                         configDefer.resolve();
                     });
                 } else {
-                    configDefer.resolve();
+                    //configDefer.resolve();
+                    $http.get(APPCONSTANTS.debugConfigFileURL).success(function (jsonData) {
+                        angular.extend(config, jsonData);
+                        configDefer.resolve();
+                    }).error(function () {
+                        configDefer.resolve();
+                    });
                 }
 
             }

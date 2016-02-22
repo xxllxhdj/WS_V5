@@ -1,6 +1,7 @@
 
 angular.module('WorkStation', [
     'ionic',
+    'oc.lazyLoad',
     'ngCordova',
 
     'WorkStation.controllers',
@@ -9,8 +10,8 @@ angular.module('WorkStation', [
     'WorkStation.utility'
 ])
 
-    .run(['$ionicPlatform', '$timeout', 'ConfigService', 'APPCONSTANTS',
-        function ($ionicPlatform, $timeout, ConfigService, APPCONSTANTS) {
+    .run(['$ionicPlatform', '$timeout', 'InitService', 'APPCONSTANTS',
+        function ($ionicPlatform, $timeout, InitService, APPCONSTANTS) {
             $ionicPlatform.ready(function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
@@ -21,21 +22,29 @@ angular.module('WorkStation', [
                     StatusBar.styleDefault();
                 }
                 if (navigator.splashscreen) {
-                    ConfigService.loadingPromise.then(function () {
-                        $timeout(function () {
+                    InitService.initPromise.then(function () {
+                        //$timeout(function () {
                             navigator.splashscreen.hide();
                             if (window.StatusBar) {
                                 StatusBar.show();
                             }
-                        }, APPCONSTANTS.splashScreenExtraDelay);
+                        //}, APPCONSTANTS.splashScreenExtraDelay);
                     });
                 }
             });
         }
     ])
 
-    .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider',
-        function ($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$ocLazyLoadProvider',
+        function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $ocLazyLoadProvider) {
+
+            var workStation = window.workStation || (window.workStation = {});
+            workStation.state = $stateProvider.state;
+
+            $ocLazyLoadProvider.config({
+                debug: false,
+                events: true,
+            });
 
             $stateProvider
                 .state('app', {

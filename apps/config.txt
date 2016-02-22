@@ -1,0 +1,9 @@
+
+{
+    "demos": [{
+        "id": "ionic",
+        "name": "ionic",
+        "logo": "ionic.png",
+        "enabled": true
+    }]
+}

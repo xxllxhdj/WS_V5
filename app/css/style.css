@@ -63,6 +63,22 @@ a:focus {
     color: #fff;
 }
 
+.col-sm-3, .col-xs-4 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.col-xs-4 {
+    width: 33.33333333%;
+}
+@media (min-width: 768px) {
+    .col-sm-3 {
+        width: 25%;
+        float: left;
+    }
+}
+
 /**********************************************************Common******************************************************/
 
 /*********************************************************app.html*****************************************************/
@@ -107,6 +123,9 @@ a:focus {
 .option-toggle .toggle {
     top: 12px;
 }
+.tech p {
+    margin: 0 0 5px;
+}
 
 .demo-logo {
     max-width: 40px;
@@ -129,9 +148,6 @@ a:focus {
 .tech {
     padding-top: 15px;
     padding-bottom: 15px;
-}
-.tech p {
-    margin: 5px 0 0 0;
 }
 
 .tech-img {

@@ -1,0 +1,112 @@
+'use strict';
+
+
+module.exports = function(grunt) {
+
+    // Load grunt tasks automatically
+    require('load-grunt-tasks')(grunt, {
+        requireResolution: true
+    });
+
+    // Time how long tasks take. Can help when optimizing build times
+    require('time-grunt')(grunt);
+
+    grunt.initConfig({
+
+        // Project settings
+        config: {
+            // configurable paths
+            app: 'app',
+            styles: 'css',
+            images: 'img',
+            scripts: 'js',
+            temp: '.tmp',
+            dist: 'ionic'
+        },
+
+        // Make sure code styles are up to par and there are no obvious mistakes
+        jshint: {
+            options: {
+                jshintrc: '../../.jshintrc',
+                reporter: require('jshint-stylish')
+            },
+            all: [
+                '<%= config.app %>/<%= config.scripts %>/**/*.js'
+            ]
+        },
+
+        // Empties folders to start fresh
+        clean: {
+            dist: {
+                files: [{
+                    dot: true,
+                    src: [
+                        '<%= config.temp %>',
+                        '<%= config.dist %>/*'
+                    ]
+                }]
+            }
+        },
+
+        concat: {
+            css: {
+                src: [
+                    '<%= config.app %>/<%= config.styles %>/{,*/}*.css'
+                ],
+                dest: '<%= config.temp %>/<%= config.styles %>/main.css'
+            },
+            js: {
+                src: [
+                    '<%= config.app %>/<%= config.scripts %>/{,*/}*.js'
+                ],
+                dest: '<%= config.temp %>/<%= config.scripts %>/main.js'
+            }
+        },
+
+        uglify: {
+            dist: {
+                files: {
+                    '<%= config.temp %>/<%= config.styles %>/main.css': 
+                        ['<%= config.temp %>/<%= config.styles %>/main.css'],
+                    '<%= config.temp %>/<%= config.scripts %>/main.js': 
+                        ['<%= config.temp %>/<%= config.scripts %>/main.js']
+                }
+            }
+        },
+
+        // Copies remaining files to places other tasks can use
+        copy: {
+            jscss: {
+                expand: true,
+                dot: true,
+                cwd: '<%= config.temp %>',
+                dest: '<%= config.dist %>',
+                src: [
+                    '<%= config.styles %>/*',
+                    '<%= config.scripts %>/*'
+                ]
+            },
+            resources: {
+                expand: true,
+                dot: true,
+                cwd: '<%= config.app %>',
+                dest: '<%= config.dist %>',
+                src: [
+                    '*.{png,jpg,jpeg,gif}',
+                    '<%= config.images %>/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+                    'tpls/{,*/}*.html'
+                ]
+            }
+        }
+    });
+
+    grunt.registerTask('release', [
+        'clean',
+        'jshint',
+        'concat',
+        'uglify',
+        'copy'
+    ]);
+
+    grunt.registerTask('default', ['release']);
+};
