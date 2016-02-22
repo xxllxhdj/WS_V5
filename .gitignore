@@ -7,5 +7,5 @@ bower_components/
 platforms/
 plugins/
 .tmp/
-www/
+/www/
 resources/android/
