@@ -19,6 +19,7 @@
         "ionic": true,
         "cordova": true,
         "StatusBar": true,
-        "workStation": true
+        "workStation": true,
+        "console": true
     }
 }

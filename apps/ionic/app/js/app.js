@@ -7,6 +7,7 @@
         })
         .state('app.hugeData', {
             url: '/hugedata',
-            templateUrl: workStation.toAppsURL('tpls/hugeData.html', 'ionic')
+            templateUrl: workStation.toAppsURL('tpls/hugeData.html', 'ionic'),
+            controller: 'HugeDataController'
         });
 })();

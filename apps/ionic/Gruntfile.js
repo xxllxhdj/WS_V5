@@ -57,7 +57,8 @@ module.exports = function(grunt) {
             },
             js: {
                 src: [
-                    '<%= config.app %>/<%= config.scripts %>/{,*/}*.js'
+                    '<%= config.app %>/<%= config.scripts %>/*/*.js',
+                    '<%= config.app %>/<%= config.scripts %>/app.js'
                 ],
                 dest: '<%= config.temp %>/<%= config.scripts %>/main.js'
             }
@@ -96,17 +97,44 @@ module.exports = function(grunt) {
                     '<%= config.images %>/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
                     'tpls/{,*/}*.html'
                 ]
+            },
+            debug: {
+                files: [{
+                    src: '<%= config.app %>/<%= config.scripts %>/app-dev.js',
+                    dest: '<%= config.dist %>/<%= config.scripts %>/main.js'
+                }, {
+                    src: '<%= config.app %>/<%= config.styles %>/style.css',
+                    dest: '<%= config.dist %>/<%= config.styles %>/main.css'
+                }]
+            },
+            dfiles: {
+                expand: true,
+                dot: true,
+                cwd: '<%= config.app %>',
+                dest: '<%= config.dist %>',
+                src: [
+                    '<%= config.scripts %>/*/*'
+                ]
             }
         }
     });
+
+    grunt.registerTask('debug', [
+        'clean',
+        'jshint',
+        'copy:debug',
+        'copy:dfiles',
+        'copy:resources'
+    ]);
 
     grunt.registerTask('release', [
         'clean',
         'jshint',
         'concat',
         'uglify',
-        'copy'
+        'copy:jscss',
+        'copy:resources'
     ]);
 
-    grunt.registerTask('default', ['release']);
+    grunt.registerTask('default', ['debug']);
 };
