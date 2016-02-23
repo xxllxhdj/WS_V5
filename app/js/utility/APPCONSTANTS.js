@@ -6,7 +6,7 @@ angular.module('WorkStation.utility')
         configFileName: 'config.txt',
         debugConfigFileURL: 'apps/config.txt',
 
-        splashScreenExtraDelay: 1000,
+        splashScreenExtraDelay: 800,
         platformBackButtonPriorityView: 110,
         exitAppConfirmTime: 2000
     });

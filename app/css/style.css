@@ -68,6 +68,7 @@ a:focus {
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
+    float: left;
 }
 .col-xs-4 {
     width: 33.33333333%;
@@ -75,7 +76,6 @@ a:focus {
 @media (min-width: 768px) {
     .col-sm-3 {
         width: 25%;
-        float: left;
     }
 }
 

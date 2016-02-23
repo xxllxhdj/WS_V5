@@ -14,7 +14,7 @@ angular.module('WorkStation.utility')
             var childAppRootDir = '';
             srcURL = appId + '/' + srcURL;
             if (window.cordova && cordova.file) {
-                childAppRootDir = (cordova.file.externalDataDirectory || cordova.file.documentsDirectory);
+                childAppRootDir = o.getConfigDir();
             } else {
                 srcURL = appId + '/' + srcURL;
             }

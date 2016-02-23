@@ -23,12 +23,12 @@ angular.module('WorkStation', [
                 }
                 if (navigator.splashscreen) {
                     InitService.initPromise.then(function () {
-                        //$timeout(function () {
+                        $timeout(function () {
                             navigator.splashscreen.hide();
                             if (window.StatusBar) {
                                 StatusBar.show();
                             }
-                        //}, APPCONSTANTS.splashScreenExtraDelay);
+                        }, APPCONSTANTS.splashScreenExtraDelay);
                     });
                 }
             });
