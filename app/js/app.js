@@ -38,9 +38,6 @@ angular.module('WorkStation', [
     .config(['$stateProvider', '$urlRouterProvider', '$ionicConfigProvider', '$ocLazyLoadProvider',
         function ($stateProvider, $urlRouterProvider, $ionicConfigProvider, $ocLazyLoadProvider) {
 
-            var workStation = window.workStation || (window.workStation = {});
-            workStation.state = $stateProvider.state;
-
             $ocLazyLoadProvider.config({
                 debug: false,
                 events: true,

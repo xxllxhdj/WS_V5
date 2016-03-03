@@ -24,6 +24,18 @@ angular.module('WorkStation.services')
             workStation.load = $ocLazyLoad.load;
 
             workStation.toAppsURL = UtilService.toAppsURL;
+
+            workStation.registerModule = registerModule;
+        }
+
+        function registerModule (moduleName, dependencies) {
+          // Create angular module
+          var module = angular.module(moduleName, dependencies || []);
+
+          // Add the module to the AngularJS configuration file
+          angular.module('WorkStation').requires.push(moduleName);
+
+          return module;
         }
     }
 ]);

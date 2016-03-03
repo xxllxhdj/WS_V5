@@ -57,8 +57,8 @@ module.exports = function(grunt) {
             },
             js: {
                 src: [
-                    '<%= config.app %>/<%= config.scripts %>/*/*.js',
-                    '<%= config.app %>/<%= config.scripts %>/app.js'
+                    '<%= config.app %>/<%= config.scripts %>/app.js',
+                    '<%= config.app %>/<%= config.scripts %>/*/*.js'
                 ],
                 dest: '<%= config.temp %>/<%= config.scripts %>/main.js'
             }

@@ -1,5 +1,5 @@
 
-angular.module('WorkStation.controllers')
+angular.module('ionic')
     .controller('HugeDataController', ['$scope', 
         function ($scope) {
             $scope.data = {
