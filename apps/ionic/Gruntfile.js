@@ -24,6 +24,27 @@ module.exports = function(grunt) {
             dist: 'ionic'
         },
 
+        watch: {
+            gruntfile: {
+                files: ['Gruntfile.js']
+            },
+            scripts: {
+                files: [
+                    '<%= config.app %>/<%= config.styles %>/{,*/}*.css',
+                    '<%= config.app %>/<%= config.scripts %>/{,*/}*.js'
+                ],
+                tasks: ['jshint', 'copy:debug', 'copy:dfiles']
+            },
+            resources: {
+                files: [
+                    '*.{png,jpg,jpeg,gif}',
+                    '<%= config.images %>/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+                    'tpls/{,*/}*.html'
+                ],
+                tasks: ['copy:resources']
+            }
+        },
+
         // Make sure code styles are up to par and there are no obvious mistakes
         jshint: {
             options: {
@@ -124,7 +145,8 @@ module.exports = function(grunt) {
         'jshint',
         'copy:debug',
         'copy:dfiles',
-        'copy:resources'
+        'copy:resources',
+        'watch'
     ]);
 
     grunt.registerTask('release', [
