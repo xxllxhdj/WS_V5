@@ -8,5 +8,7 @@ angular.module('WorkStation.utility')
 
         splashScreenExtraDelay: 800,
         platformBackButtonPriorityView: 110,
-        exitAppConfirmTime: 2000
+        exitAppConfirmTime: 2000,
+
+        appNumPerPage: 9
     });

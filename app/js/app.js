@@ -3,6 +3,7 @@ angular.module('WorkStation', [
     'ionic',
     'oc.lazyLoad',
     'ngCordova',
+    'ngDragDrop',
 
     'WorkStation.controllers',
     'WorkStation.directives',

@@ -3,12 +3,10 @@
     "demos": [{
         "id": "angular",
         "name": "angular",
-        "logo": "angular.jpg",
-        "enabled": true
+        "logo": "angular.jpg"
     }, {
         "id": "ionic",
         "name": "ionic",
-        "logo": "ionic.png",
-        "enabled": true
+        "logo": "ionic.png"
     }]
 }

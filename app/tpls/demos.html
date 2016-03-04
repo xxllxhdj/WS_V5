@@ -1,10 +1,20 @@
 <ion-view title="Demo">
-    <ion-content>
-        <div class="row tech-container">
-            <div class="col-xs-4 col-sm-3 tech" ng-repeat="tech in techData" ng-click="goApp(tech.id)">
-                <img ng-src="{{tech.logo}}" class="tech-img">
-                <p>{{tech.name}}</p>
-            </div>
-        </div>
+    <ion-nav-buttons side="right">
+        <button class="button button-clear button-icon" ng-click="switchEdit()"
+            ng-class="{'ion-ios-cog':!data.editing,'ion-android-done':data.editing}">
+        </button>
+    </ion-nav-buttons>
+    <ion-content scroll="false">
+        <ion-slide-box delegate-handle="slideApps" show-pager="{{data.appsArray.length > 1}}" class="apps-slide-box">
+            <ion-slide ng-repeat="apps in data.appsArray">
+                <div class="row apps-container">
+                    <div class="col-xs-4 app" ng-repeat="app in apps" ng-click="clickApp(app)"
+                        data-drop="true" data-drag="data.editing" ng-model='apps' jqyoui-droppable="{index: {{$index}}}"  jqyoui-draggable="{index: {{$index}}, onStart:'onDragStart()', onDrag: 'onDrag()', onStop:'onDragStop()'}" data-jqyoui-options="{revert: 'invalid'}">
+                        <img ng-src="{{app.logo}}">
+                        <p>{{app.name}}</p>
+                    </div>
+                </div>
+            </ion-slide>
+        </ion-slide-box>
     </ion-content>
 </ion-view>

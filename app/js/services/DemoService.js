@@ -10,26 +10,24 @@ angular.module('WorkStation.services')
 
         ConfigService.loadingPromise.then(init);
 
-        o.setDemoEnabled = function (id, enabled) {
-            for (var i in demos) {
-                if (demos[i].id === id) {
-                    demos[i].enabled = enabled;
-                    ConfigService.set('demos', demos);
-                }
-            }
+        o.setDemos = function (demos) {
+            var df = $q.defer();
+
+            ConfigService.set('demos', demos).then(function () {
+                df.resolve();
+            }, function () {
+                df.reject();
+            });
+
+            return df.promise;
         };
         o.getDemos = function () {
-            return angular.isArray(demos) ? demos.slice(0, demos.length) : [];
-        };
-        o.getEnabledDemos = function () {
-            var enabledDemos = [];
+            var results = [];
             angular.forEach(demos, function (demo) {
-                if (demo.enabled) {
-                    demo.logo = workStation.toAppsURL(demo.logo, demo.id);
-                    enabledDemos.push(demo);
-                }
+                demo.logo = workStation.toAppsURL(demo.logo, demo.id);
+                results.push(demo);
             });
-            return enabledDemos;
+            return results;
         };
 
         return o;
