@@ -21,7 +21,7 @@ module.exports = function(grunt) {
             images: 'img',
             scripts: 'js',
             temp: '.tmp',
-            dist: 'ionic'
+            dist: 'angular'
         },
 
         watch: {

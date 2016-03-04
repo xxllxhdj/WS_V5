@@ -1,6 +1,11 @@
 
 {
     "demos": [{
+        "id": "angular",
+        "name": "angular",
+        "logo": "angular.jpg",
+        "enabled": true
+    }, {
         "id": "ionic",
         "name": "ionic",
         "logo": "ionic.png",
