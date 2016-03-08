@@ -1,8 +1,8 @@
 
 angular.module('WorkStation.controllers')
 
-    .controller('DemosCtrl', ['$scope', '$rootScope', '$ionicSlideBoxDelegate', '$state', 'DemoService', 'UtilService', 'InitService', 'APPCONSTANTS',
-        function ($scope, $rootScope, $ionicSlideBoxDelegate, $state, DemoService, UtilService, InitService, APPCONSTANTS) {
+    .controller('DemosCtrl', ['$scope', '$rootScope', '$ionicSlideBoxDelegate', '$state', 'DemoService', 'UtilService', 'InitService', 'wsDialog', 'APPCONSTANTS',
+        function ($scope, $rootScope, $ionicSlideBoxDelegate, $state, DemoService, UtilService, InitService, wsDialog, APPCONSTANTS) {
             $scope.data = {
                 appsArray: [],
                 editing: false
@@ -26,7 +26,7 @@ angular.module('WorkStation.controllers')
                 UtilService.loadApp(app.id).then(function () {
                     $state.go('app.' + app.id);
                 }, function () {
-                    alert('加载Demo失败，请确认是否已安装然后重试。');
+                    wsDialog.tipsBottom('加载Demo失败，请确认是否已安装然后重试。');
                 });
             };
             $scope.onDragStart = function () {

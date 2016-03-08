@@ -51,7 +51,8 @@ module.exports = function (grunt) {
                         '<%= config.app %>/{,*/}*.html',
                         '<%= config.app %>/{,*/}*.css',
                         '<%= config.app %>/img/{,*/}*',
-                        '<%= config.app %>/js/{,*/}*.js'
+                        '<%= config.app %>/js/{,*/}*.js',
+                        '<%= config.app %>/lib/{,*/}*'
                     ],
                     port: 9006,
                     server: {
@@ -67,7 +68,12 @@ module.exports = function (grunt) {
                 options: {
                     background: false,
                     port: 9008,
-                    server: '<%= config.dist %>'
+                    server: {
+                        baseDir: ['<%= config.dist %>'],
+                        routes: {
+                            '/apps': './apps'
+                        }
+                    }
                 }
             }
         },
@@ -110,7 +116,10 @@ module.exports = function (grunt) {
                 dot: true,
                 cwd: '<%= config.app %>',
                 dest: '<%= config.temp %>',
-                src: ['<%= config.styles %>/*']
+                src: [
+                    '<%= config.styles %>/*',
+                    'lib/**/*.css'
+                ]
             },
             release: {
                 files: [{
@@ -212,7 +221,7 @@ module.exports = function (grunt) {
                 src: 'tpls/{,*/}*.html',
                 dest: '.tmp/templateCache.js'
             }
-        },
+        }
     });
 
     grunt.registerTask('release', [

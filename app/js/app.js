@@ -5,6 +5,7 @@ angular.module('WorkStation', [
     'ngCordova',
     'ngDragDrop',
 
+    'ionicWS',
     'WorkStation.controllers',
     'WorkStation.directives',
     'WorkStation.services',
