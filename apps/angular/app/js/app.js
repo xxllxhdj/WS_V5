@@ -11,5 +11,10 @@ workStation.registerModule('angular', [])
                 url: '/angularBMap',
                 templateUrl: workStation.toAppsURL('tpls/angularBMap.html', 'angular'),
                 controller: 'AngularBMapController'
+            })
+            .state('app.angularSlider', {
+                url: '/angularSlider',
+                templateUrl: workStation.toAppsURL('tpls/angularSlider.html', 'angular'),
+                controller: 'AngularSliderController'
             });
     }]);

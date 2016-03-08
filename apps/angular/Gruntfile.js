@@ -63,7 +63,7 @@ module.exports = function(grunt) {
                     dot: true,
                     src: [
                         '<%= config.temp %>',
-                        '<%= config.dist %>/*'
+                        '<%= config.dist %>'
                     ]
                 }]
             }
@@ -85,13 +85,21 @@ module.exports = function(grunt) {
             }
         },
 
+        cssmin: {
+            dist: {
+                files: {
+                    '<%= config.dist %>/<%= config.styles %>/main.css': [
+                        '<%= config.temp %>/<%= config.styles %>/main.css'
+                    ]
+                }
+            }
+        },
         uglify: {
             dist: {
                 files: {
-                    '<%= config.temp %>/<%= config.styles %>/main.css': 
-                        ['<%= config.temp %>/<%= config.styles %>/main.css'],
-                    '<%= config.temp %>/<%= config.scripts %>/main.js': 
-                        ['<%= config.temp %>/<%= config.scripts %>/main.js']
+                    '<%= config.dist %>/<%= config.scripts %>/main.js': [
+                        '<%= config.temp %>/<%= config.scripts %>/main.js'
+                    ]
                 }
             }
         },
@@ -153,8 +161,8 @@ module.exports = function(grunt) {
         'clean',
         'jshint',
         'concat',
+        'cssmin',
         'uglify',
-        'copy:jscss',
         'copy:resources'
     ]);
 

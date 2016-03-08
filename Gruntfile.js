@@ -138,6 +138,12 @@ module.exports = function (grunt) {
                     cwd: 'bower_components/ionic/release',
                     src: 'fonts/*',
                     dest: '<%= config.dist %>'
+                }, {
+                    expand: true,
+                    dot: true,
+                    cwd: 'bower_components/angular-awesome-slider/dist',
+                    src: 'img/*',
+                    dest: '<%= config.dist %>'
                 }]
             }
         },
