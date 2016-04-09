@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-plugin-serialport" version="0.1">
+
+    <name>SerialPort</name>
+    <description>Cordova Plugin</description>
+
+    <js-module src="www/serialport.js" name="serialport">
+        <clobbers target="cordova.plugins.SerialPort"/>
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+
+        <source-file src="src/android/SerialPort.java" target-dir="src/cn/xxl/cordova/serialport"/>
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="SerialPort">
+                <param name="android-package" value="cn.xxl.cordova.serialport.SerialPort"/>
+            </feature>
+        </config-file>
+
+    </platform>
+</plugin>

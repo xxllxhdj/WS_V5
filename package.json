@@ -50,7 +50,8 @@
   ],
   "localPlugins": [
     "cordova-plugin-statusbar",
-    "cn.plugins.extrainfo"
+    "cn.plugins.extrainfo",
+    "cordova-plugin-serialport"
   ],
   "cordovaPlatforms": [
     "android"

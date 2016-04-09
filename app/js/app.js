@@ -34,6 +34,15 @@ angular.module('WorkStation', [
                         }, APPCONSTANTS.splashScreenExtraDelay);
                     });
                 }
+                if (window.cordova && cordova.plugins.SerialPort) {
+                    cordova.plugins.SerialPort.getExtra(function (result) {
+                        alert(result);
+                    }, function (err) {
+                        alert(err);
+                    });
+                } else {
+                    alert('请安装SerialPort插件');
+                }
             });
         }
     ])
