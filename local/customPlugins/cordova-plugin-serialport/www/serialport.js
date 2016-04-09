@@ -1,5 +1,5 @@
 var exec = require('cordova/exec');
 
-exports.getExtra = function(success, error) {
-    exec(success, error, "SerialPort", "getExtra", []);
+exports.getSerialPort = function(success, error) {
+	exec(success, error, "SerialPort", "getSerialPort", []);
 };
