@@ -1,6 +1,8 @@
 
 package cn.xxl.cordova.serialport;
 
+import android.app.Activity;
+
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -9,6 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.InvalidParameterException;
 
 import android_serialport_api.SerialPort;
@@ -17,8 +22,42 @@ import android_serialport_api.SerialPortFinder;
 public class SerialPortPlugin extends CordovaPlugin {
 
     private SerialPort mSerialPort;
+    private OutputStream mOutputStream;
+    private InputStream mInputStream;
+    private ReadThread mReadThread;
+
+    private static SerialPortPlugin instance;
+
+    public SerialPortPlugin() {
+        instance = this;
+    }
+
+    private class ReadThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            while (!isInterrupted()) {
+                int size;
+                try {
+                    byte[] buffer = new byte[64];
+                    if (mInputStream == null) {
+                        return;
+                    }
+                    
+                    size = mInputStream.read(buffer);
+                    if (size > 0) {
+                        onDataReceived(buffer, size);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
+        }
+    }
 
     public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
+        
         if (action.equals("getSerialPort")) {
             SerialPortFinder serialPortFinder = new SerialPortFinder();
             String[] entryValues = serialPortFinder.getAllDevicesPath();
@@ -57,6 +96,16 @@ public class SerialPortPlugin extends CordovaPlugin {
                         mSerialPort.close();
                     }
                     mSerialPort = new SerialPort(new File(port), baudRate, 0);
+
+                    mOutputStream = mSerialPort.getOutputStream();
+                    mInputStream = mSerialPort.getInputStream();
+
+                    if (mReadThread != null) {
+                        mReadThread.interrupt();
+                    }
+                    mReadThread = new ReadThread();
+                    mReadThread.start();
+
                     callbackContext.success();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -66,10 +115,41 @@ public class SerialPortPlugin extends CordovaPlugin {
         });
     }
 
-    public void closeSerialPort() {
+    private void closeSerialPort() {
         if (mSerialPort != null) {
             mSerialPort.close();
             mSerialPort = null;
         }
+        if (mReadThread != null) {
+            mReadThread.interrupt();
+        }
+    }
+
+    private void onDataReceived(final byte[] buffer, final int size) {
+        final Activity cordovaActivity = cordova.getActivity();
+        cordovaActivity.runOnUiThread(new Runnable() {
+            public void run() {
+                String data = new String(buffer, 0, size);
+                try {
+                    final String jsEvent = String.format(
+                            "cordova.fireDocumentEvent('serialport.DataReceived',%s)",
+                            data);
+                    cordovaActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            instance.webView.loadUrl("javascript:" + jsEvent);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        closeSerialPort();
+        super.onDestroy();
     }
 }
