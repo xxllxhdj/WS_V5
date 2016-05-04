@@ -8,5 +8,9 @@
         "id": "ionic",
         "name": "ionic",
         "logo": "ionic.png"
+    }, {
+        "id": "ngcordova",
+        "name": "ngCordova",
+        "logo": "ngcordova.png"
     }]
 }

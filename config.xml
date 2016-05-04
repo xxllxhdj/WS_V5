@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="cn.personal.workstation" version="5.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>XXL工作站</name>
-  <description>
-        An Ionic Framework and Cordova project.
+  <description>
+        An Ionic Framework and Cordova project.
     </description>
-  <author email="xuxle@yonyou.com" href="www.yonyouup.com">
-        XXL Personal
+  <author email="xuxle@yonyou.com" href="www.yonyouup.com">
+        XXL Personal
     </author>
   <content src="index.html"/>
   <allow-intent href="*"/>
@@ -17,6 +17,7 @@
   <allow-intent href="geo:*"/>
   <access origin="*"/>
   <preference name="Fullscreen" value="true"/>
+  <preference name="Orientation" value="portrait"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="20000"/>
   <platform name="android">

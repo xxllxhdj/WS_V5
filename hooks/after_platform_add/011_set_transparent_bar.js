@@ -10,7 +10,7 @@ function setTransparentBar (indexPath) {
 
         var data = fs.readFileSync(indexPath, 'utf8');
 
-        var replace_with = "getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);super.onCreate(savedInstanceState)";
+        var replace_with = "getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);super.onCreate(savedInstanceState)";
 
         data = data.replace(/super\.onCreate\(savedInstanceState\)/g, replace_with);
 

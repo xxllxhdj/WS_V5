@@ -6,8 +6,9 @@ import android.app.Activity;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CordovaArgs;
+import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.JSONException;
 
 import java.io.File;
@@ -26,27 +27,28 @@ public class SerialPortPlugin extends CordovaPlugin {
     private InputStream mInputStream;
     private ReadThread mReadThread;
 
-    private static SerialPortPlugin instance;
-
-    public SerialPortPlugin() {
-        instance = this;
-    }
+    String mParser = "0A";
+    String mInputCache = "";
 
     private class ReadThread extends Thread {
         @Override
         public void run() {
             super.run();
             while (!isInterrupted()) {
-                int size;
                 try {
-                    byte[] buffer = new byte[64];
                     if (mInputStream == null) {
                         return;
                     }
-                    
-                    size = mInputStream.read(buffer);
-                    if (size > 0) {
-                        onDataReceived(buffer, size);
+                    byte[] buffer = new byte[64]; 
+                    int size = mInputStream.read(buffer);
+                    if (size <= 0) {
+                        return;
+                    }
+                    String input = bytesToHexString(buffer, size);
+                    mInputCache += input;
+                    if (mInputCache.endsWith(mParser)) {
+                        onDataReceived(mInputCache.substring(0, mInputCache.length() - mParser.length()));
+                        mInputCache = "";
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -56,7 +58,7 @@ public class SerialPortPlugin extends CordovaPlugin {
         }
     }
 
-    public boolean execute(String action, CordovaArgs args, CallbackContext callbackContext) throws JSONException {
+    public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         
         if (action.equals("getSerialPort")) {
             SerialPortFinder serialPortFinder = new SerialPortFinder();
@@ -83,12 +85,14 @@ public class SerialPortPlugin extends CordovaPlugin {
         return false;
     }
 
-    private void openSerialPort(final CordovaArgs args, final CallbackContext callbackContext) {
+    private void openSerialPort(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        final String port = args.getString(0);
+        final JSONObject options = args.getJSONObject(1);
+        final int baudRate = options.has("baudrate") ? options.getInt("baudrate") : 9600;
+        mParser = options.has("parser") ? options.getString("parser") : "D4";
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
-                    int baudRate = args.getInt(1);
-                    String port = args.getString(0);
                     if ((port.length() == 0) || (baudRate == -1)) {
                         throw new InvalidParameterException();
                     }
@@ -99,13 +103,14 @@ public class SerialPortPlugin extends CordovaPlugin {
 
                     mOutputStream = mSerialPort.getOutputStream();
                     mInputStream = mSerialPort.getInputStream();
+                    mInputCache = "";
 
                     if (mReadThread != null) {
                         mReadThread.interrupt();
                     }
                     mReadThread = new ReadThread();
                     mReadThread.start();
-
+                    
                     callbackContext.success();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -123,29 +128,35 @@ public class SerialPortPlugin extends CordovaPlugin {
         if (mReadThread != null) {
             mReadThread.interrupt();
         }
+        mInputCache = "";
     }
 
-    private void onDataReceived(final byte[] buffer, final int size) {
-        final Activity cordovaActivity = cordova.getActivity();
-        cordovaActivity.runOnUiThread(new Runnable() {
-            public void run() {
-                String data = new String(buffer, 0, size);
-                try {
-                    final String jsEvent = String.format(
-                            "cordova.fireDocumentEvent('serialport.DataReceived',%s)",
-                            data);
-                    cordovaActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            instance.webView.loadUrl("javascript:" + jsEvent);
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
+    private void onDataReceived(final String input) {
+        try {
+            cordova.getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    String jsEvent = String.format(
+                            "cordova.fireDocumentEvent('serialport.DataReceived',{'serialPortData':'%s'})",
+                            input);
+                    webView.sendJavascript(jsEvent);
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    public String bytesToHexString(byte[] bArray, int size) {
+        String ret = ""; 
+        for (int i = 0; i < size; i++) { 
+            String hex = Integer.toHexString(bArray[i] & 0xFF); 
+            if (hex.length() == 1) { 
+                hex = '0' + hex; 
+            } 
+            ret += hex.toUpperCase(); 
+        } 
+        return ret;
+    } 
 
     @Override
     public void onDestroy() {

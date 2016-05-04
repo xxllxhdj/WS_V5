@@ -4,8 +4,9 @@ exports.getSerialPort = function (success, error) {
 	exec(success, error, "SerialPort", "getSerialPort", []);
 };
 
-exports.openSerialPort = function (port, baudrate, success, error) {
-	exec(success, error, "SerialPort", "openSerialPort", [port, baudrate]);
+exports.openSerialPort = function (port, options, success, error) {
+    options = options || {};
+	exec(success, error, "SerialPort", "openSerialPort", [port, options]);
 };
 
 exports.closeSerialPort = function () {
