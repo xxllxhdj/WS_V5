@@ -89,7 +89,7 @@ public class SerialPortPlugin extends CordovaPlugin {
         final String port = args.getString(0);
         final JSONObject options = args.getJSONObject(1);
         final int baudRate = options.has("baudrate") ? options.getInt("baudrate") : 9600;
-        mParser = options.has("parser") ? options.getString("parser") : "D4";
+        mParser = options.has("parser") ? options.getString("parser") : "0A";
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {

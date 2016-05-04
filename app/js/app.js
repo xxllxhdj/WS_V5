@@ -36,11 +36,11 @@ angular.module('WorkStation', [
                 }
                 if (window.cordova && cordova.plugins.SerialPort) {
                     cordova.plugins.SerialPort.getSerialPort(function (result) {
-                        alert(angular.toJson(result));
+                        //alert(angular.toJson(result));
                         cordova.plugins.SerialPort.openSerialPort('/dev/ttymxc3', {
                             parser: '0D0A03'
                         }, function () {
-                            alert('打开串口"/dev/ttymxc3"成功');
+                            //alert('打开串口"/dev/ttymxc3"成功');
                             document.addEventListener("serialport.DataReceived", function (e) {
                                 alert(e.serialPortData);
                                 //cordova.plugins.SerialPort.closeSerialPort();
@@ -52,6 +52,13 @@ angular.module('WorkStation', [
                     });
                 } else {
                     alert('请安装SerialPort插件');
+                }
+                if (window.cordova && cordova.plugins.Network) {
+                    cordova.plugins.Network.getInfo(function (result) {
+                        alert(angular.toJson(result));
+                    });
+                } else {
+                    alert('请安装Network插件');
                 }
             });
         }

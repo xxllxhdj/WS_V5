@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-plugin-network" version="0.1">
+
+    <name>Network</name>
+    <description>Cordova Plugin</description>
+
+    <js-module src="www/network.js" name="network">
+        <clobbers target="cordova.plugins.Network"/>
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+
+        <source-file src="src/android/NetworkPlugin.java" target-dir="src/cn/xxl/cordova/network"/>
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Network">
+                <param name="android-package" value="cn.xxl.cordova.network.NetworkPlugin"/>
+            </feature>
+        </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+            <uses-permission android:name="android.permission.INTERNET" />
+        </config-file>
+
+    </platform>
+</plugin>
