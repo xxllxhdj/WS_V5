@@ -5,6 +5,8 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
+import org.apache.http.conn.util.InetAddressUtils; 
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -14,7 +16,7 @@ import java.net.NetworkInterface;
 import java.util.Enumeration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-
+import android.content.Context;
 import java.net.SocketException; 
 
 public class NetworkPlugin extends CordovaPlugin {
@@ -37,21 +39,22 @@ public class NetworkPlugin extends CordovaPlugin {
             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {     
                 NetworkInterface intf = en.nextElement();     
                 for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {     
-                    InetAddress inetAddress = enumIpAddr.nextElement();     
-                    if (!inetAddress.isLoopbackAddress()) {     
-                        return inetAddress.getHostAddress().toString();     
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    String ipAddress = inetAddress.getHostAddress().toString();
+                    if (!inetAddress.isLoopbackAddress() && InetAddressUtils.isIPv4Address(ipAddress)) {     
+                        return ipAddress;     
                     }
                 }     
             }     
-        } catch (SocketException ex) {     
+        } catch (SocketException e) {     
             e.printStackTrace();
-            return;
+            return "";
         }     
-        return null;     
+        return "";     
     }     
          
     private String getMacAddress() {     
-        WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);     
+        WifiManager wifi = (WifiManager)this.cordova.getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);     
         WifiInfo info = wifi.getConnectionInfo();     
         return info.getMacAddress();     
     } 
