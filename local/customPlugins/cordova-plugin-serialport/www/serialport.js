@@ -1,14 +1,9 @@
 var exec = require('cordova/exec');
 
-exports.getSerialPort = function (success, error) {
-	exec(success, error, "SerialPort", "getSerialPort", []);
+exports.open = function (baudrate, parser, success, error) {
+	exec(success, error, "SerialPort", "open", [baudrate, parser]);
 };
 
-exports.openSerialPort = function (port, options, success, error) {
-    options = options || {};
-	exec(success, error, "SerialPort", "openSerialPort", [port, options]);
-};
-
-exports.closeSerialPort = function () {
-	exec(null, null, "SerialPort", "closeSerialPort", []);
+exports.close = function () {
+	exec(null, null, "SerialPort", "close", []);
 };
