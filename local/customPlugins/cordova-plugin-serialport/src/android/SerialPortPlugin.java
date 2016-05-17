@@ -17,7 +17,7 @@ import android_serialport_api.SerialPortFinder;
 
 public class SerialPortPlugin extends CordovaPlugin {
 
-    private Vector<SerialPortEntity> mSerialPorts = null;
+    private Vector<SerialPortEntity> mSerialPorts = new Vector<SerialPortEntity>();
 
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 
@@ -35,7 +35,7 @@ public class SerialPortPlugin extends CordovaPlugin {
     }
 
     private void openSerialPort(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        if (mSerialPorts != null) {
+        if (mSerialPorts.size() > 0) {
             callbackContext.success();
             return;
         }
@@ -48,12 +48,13 @@ public class SerialPortPlugin extends CordovaPlugin {
             public void run() {
                 SerialPortFinder serialPortFinder = new SerialPortFinder();
                 String[] ports = serialPortFinder.getAllDevicesPath();
-                mSerialPorts = new Vector<SerialPortEntity>();
                 for (int i = 0; i < ports.length; i++) {
                     SerialPortEntity serialPortEntity = new SerialPortEntity();
                     if (serialPortEntity.open(ports[i], baudRate, parser, 0)) {
                         serialPortEntity.setSerialPortPlugin(instance);
                         mSerialPorts.add(serialPortEntity);
+                    } else {
+                        serialPortEntity.close();
                     }
                 }
                 callbackContext.success();
@@ -62,13 +63,14 @@ public class SerialPortPlugin extends CordovaPlugin {
     }
 
     private void closeSerialPort() {
-        if (mSerialPorts != null) {
-            Iterator<SerialPortEntity> itPort = mSerialPorts.iterator();
-            while(itPort.hasNext()) {
-                itPort.next().close();
-            }
-            mSerialPorts = null;
+        if (mSerialPorts.size() == 0) {
+            return;
         }
+        Iterator<SerialPortEntity> itPort = mSerialPorts.iterator();
+        while(itPort.hasNext()) {
+            itPort.next().close();
+        }
+        mSerialPorts.removeAllElements();
     }
 
     public void onDataReceived(final String input) {

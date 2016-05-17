@@ -15,6 +15,7 @@ public class SerialPortEntity {
     private InputStream mInputStream;
 
     private ReadThread mReadThread;
+    private boolean mStopThread;
 
     private String mParser;
     private String mInputCache = "";
@@ -24,8 +25,7 @@ public class SerialPortEntity {
     private class ReadThread extends Thread {
         @Override
         public void run() {
-            super.run();
-            while (!isInterrupted()) {
+            while (!mStopThread) {
                 try {
                     if (mInputStream == null) {
                         return;
@@ -69,6 +69,7 @@ public class SerialPortEntity {
                 mReadThread.interrupt();
             }
             mReadThread = new ReadThread();
+            mStopThread = false;
             mReadThread.start();
 
             return true;
@@ -79,12 +80,13 @@ public class SerialPortEntity {
     }
 
     public void close() {
+        if (mReadThread != null) {
+            mStopThread = true;
+            mReadThread = null;
+        }
         if (mSerialPort != null) {
             mSerialPort.close();
             mSerialPort = null;
-        }
-        if (mReadThread != null) {
-            mReadThread.interrupt();
         }
     }
 
