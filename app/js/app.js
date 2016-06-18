@@ -34,25 +34,25 @@ angular.module('WorkStation', [
                         }, APPCONSTANTS.splashScreenExtraDelay);
                     });
                 }
-                if (window.cordova && cordova.plugins.SerialPort) {
-                    cordova.plugins.SerialPort.open(9600, '0D0A03', function () {
-                        document.addEventListener("serialport.DataReceived", function (e) {
-                            alert(e.serialPortData);
-                        }, false);
-                        alert('打开串口成功');
-                    }, function () {
-                        alert('打开串口失败');
-                    });
-                } else {
-                    alert('请安装SerialPort插件');
-                }
-                if (window.cordova && cordova.plugins.Network) {
-                    cordova.plugins.Network.getInfo(function (result) {
-                        alert(angular.toJson(result));
-                    });
-                } else {
-                    alert('请安装Network插件');
-                }
+                // if (window.cordova && cordova.plugins.SerialPort) {
+                //     cordova.plugins.SerialPort.open(9600, '0D0A03', function () {
+                //         document.addEventListener("serialport.DataReceived", function (e) {
+                //             alert(e.serialPortData);
+                //         }, false);
+                //         alert('打开串口成功');
+                //     }, function () {
+                //         alert('打开串口失败');
+                //     });
+                // } else {
+                //     alert('请安装SerialPort插件');
+                // }
+                // if (window.cordova && cordova.plugins.Network) {
+                //     cordova.plugins.Network.getInfo(function (result) {
+                //         alert(angular.toJson(result));
+                //     });
+                // } else {
+                //     alert('请安装Network插件');
+                // }
             });
         }
     ])
