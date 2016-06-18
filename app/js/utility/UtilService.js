@@ -14,18 +14,18 @@ angular.module('WorkStation.utility')
             var childAppRootDir = '';
             srcURL = appId + '/' + srcURL;
             if (window.cordova && cordova.file) {
-                childAppRootDir = o.getConfigDir();
+                childAppRootDir = o.getConfigDir() + 'apps/';
             } else {
-                srcURL = appId + '/' + srcURL;
+                srcURL = 'apps/' + srcURL;
             }
-            return childAppRootDir + 'apps/' + srcURL;
+            return childAppRootDir + srcURL;
         };
         o.loadApp = function (appId) {
             return $ocLazyLoad.load({
                 name: appId,
                 files: [
-                    o.toAppsURL('js/main.js', appId),
-                    o.toAppsURL('css/main.css', appId)
+                    o.toAppsURL('css/style.css', appId),
+                    o.toAppsURL('js/app.js', appId)
                 ]
             });
         };

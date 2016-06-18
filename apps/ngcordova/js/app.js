@@ -1,7 +1,7 @@
 
 workStation.registerModule('ngcordova', [])
 
-    .config(['$stateProvider', function ($stateProvider) {
+    .config(['$stateProvider', '$ocLazyLoadProvider', function ($stateProvider, $ocLazyLoadProvider) {
         $stateProvider
             .state('app.ngcordova', {
                 url: '/ngcordova',
@@ -22,4 +22,13 @@ workStation.registerModule('ngcordova', [])
                 templateUrl: workStation.toAppsURL('tpls/sqlite.html', 'ngcordova'),
                 controller: 'SqliteController'
             });
+
+        $ocLazyLoadProvider.config({
+            modules: [{
+                name: 'ngcordova.file',
+                files: [
+                    workStation.toAppsURL('js/controllers/SqliteController.js', 'ngcordova')
+                ]
+            }]
+        });
     }]);

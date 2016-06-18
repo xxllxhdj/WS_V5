@@ -16,12 +16,11 @@ module.exports = function(grunt) {
         // Project settings
         config: {
             // configurable paths
-            app: 'app',
             styles: 'css',
             images: 'img',
             scripts: 'js',
             temp: '.tmp',
-            dist: 'ionic'
+            dist: '../../wwws/ionic'
         },
 
         watch: {
@@ -30,18 +29,10 @@ module.exports = function(grunt) {
             },
             scripts: {
                 files: [
-                    '<%= config.app %>/<%= config.styles %>/{,*/}*.css',
-                    '<%= config.app %>/<%= config.scripts %>/{,*/}*.js'
+                    '<%= config.styles %>/{,*/}*.css',
+                    '<%= config.scripts %>/{,*/}*.js'
                 ],
-                tasks: ['jshint', 'copy:debug', 'copy:dfiles']
-            },
-            resources: {
-                files: [
-                    '<%= config.app %>/*.{png,jpg,jpeg,gif}',
-                    '<%= config.app %>/<%= config.images %>/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                    '<%= config.app %>/tpls/{,*/}*.html'
-                ],
-                tasks: ['copy:resources']
+                tasks: ['jshint']
             }
         },
 
@@ -52,18 +43,21 @@ module.exports = function(grunt) {
                 reporter: require('jshint-stylish')
             },
             all: [
-                '<%= config.app %>/<%= config.scripts %>/**/*.js'
+                '<%= config.scripts %>/**/*.js'
             ]
         },
 
         // Empties folders to start fresh
         clean: {
             dist: {
+                options: {
+                    force: true
+                },
                 files: [{
                     dot: true,
                     src: [
                         '<%= config.temp %>',
-                        '<%= config.dist %>/*'
+                        '<%= config.dist %>'
                     ]
                 }]
             }
@@ -72,14 +66,14 @@ module.exports = function(grunt) {
         concat: {
             css: {
                 src: [
-                    '<%= config.app %>/<%= config.styles %>/{,*/}*.css'
+                    '<%= config.styles %>/{,*/}*.css'
                 ],
                 dest: '<%= config.temp %>/<%= config.styles %>/main.css'
             },
             js: {
                 src: [
-                    '<%= config.app %>/<%= config.scripts %>/app.js',
-                    '<%= config.app %>/<%= config.scripts %>/*/*.js'
+                    '<%= config.scripts %>/app-dist.js',
+                    '<%= config.scripts %>/*/*.js'
                 ],
                 dest: '<%= config.temp %>/<%= config.scripts %>/main.js'
             }
@@ -88,7 +82,7 @@ module.exports = function(grunt) {
         cssmin: {
             dist: {
                 files: {
-                    '<%= config.dist %>/<%= config.styles %>/main.css': [
+                    '<%= config.dist %>/<%= config.styles %>/style.css': [
                         '<%= config.temp %>/<%= config.styles %>/main.css'
                     ]
                 }
@@ -97,24 +91,15 @@ module.exports = function(grunt) {
         uglify: {
             dist: {
                 files: {
-                    '<%= config.dist %>/<%= config.scripts %>/main.js': 
-                        ['<%= config.temp %>/<%= config.scripts %>/main.js']
+                    '<%= config.dist %>/<%= config.scripts %>/app.js': [
+                        '<%= config.temp %>/<%= config.scripts %>/main.js'
+                    ]
                 }
             }
         },
 
         // Copies remaining files to places other tasks can use
         copy: {
-            jscss: {
-                expand: true,
-                dot: true,
-                cwd: '<%= config.temp %>',
-                dest: '<%= config.dist %>',
-                src: [
-                    '<%= config.styles %>/*',
-                    '<%= config.scripts %>/*'
-                ]
-            },
             resources: {
                 expand: true,
                 dot: true,
@@ -125,36 +110,9 @@ module.exports = function(grunt) {
                     '<%= config.images %>/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
                     'tpls/{,*/}*.html'
                 ]
-            },
-            debug: {
-                files: [{
-                    src: '<%= config.app %>/<%= config.scripts %>/app-dev.js',
-                    dest: '<%= config.dist %>/<%= config.scripts %>/main.js'
-                }, {
-                    src: '<%= config.app %>/<%= config.styles %>/style.css',
-                    dest: '<%= config.dist %>/<%= config.styles %>/main.css'
-                }]
-            },
-            dfiles: {
-                expand: true,
-                dot: true,
-                cwd: '<%= config.app %>',
-                dest: '<%= config.dist %>',
-                src: [
-                    '<%= config.scripts %>/*/*'
-                ]
             }
         }
     });
-
-    grunt.registerTask('debug', [
-        'clean',
-        'jshint',
-        'copy:debug',
-        'copy:dfiles',
-        'copy:resources',
-        'watch'
-    ]);
 
     grunt.registerTask('release', [
         'clean',
@@ -165,5 +123,5 @@ module.exports = function(grunt) {
         'copy:resources'
     ]);
 
-    grunt.registerTask('default', ['debug']);
+    grunt.registerTask('default', ['release']);
 };

@@ -1,0 +1,16 @@
+
+{
+    "demos": [{
+        "id": "angular",
+        "name": "angular",
+        "logo": "angular.jpg"
+    }, {
+        "id": "ionic",
+        "name": "ionic",
+        "logo": "ionic.png"
+    }, {
+        "id": "ngcordova",
+        "name": "ngCordova",
+        "logo": "ngcordova.png"
+    }]
+}

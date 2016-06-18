@@ -1,20 +1,14 @@
 
 workStation.registerModule('angular', [])
 
-    .config(['$stateProvider', function ($stateProvider) {
+    .config(['$stateProvider', '$ocLazyLoadProvider', function ($stateProvider, $ocLazyLoadProvider) {
         $stateProvider
             .state('app.angular', {
                 url: '/angular',
                 templateUrl: workStation.toAppsURL('tpls/index.html', 'angular'),
                 resolve: {
                     loadFile: ['$ocLazyLoad', function($ocLazyLoad) {
-                        return $ocLazyLoad.load({
-                            name: 'angular.file',
-                            files: [
-                                workStation.toAppsURL('js/controllers/AngularBMapController.js', 'angular'),
-                                workStation.toAppsURL('js/controllers/AngularSliderController.js', 'angular')
-                            ]
-                        });
+                        return $ocLazyLoad.load(['angular.file']);
                     }]
                 }
             })
@@ -28,4 +22,14 @@ workStation.registerModule('angular', [])
                 templateUrl: workStation.toAppsURL('tpls/angularSlider.html', 'angular'),
                 controller: 'AngularSliderController'
             });
+
+        $ocLazyLoadProvider.config({
+            modules: [{
+                name: 'angular.file',
+                files: [
+                    workStation.toAppsURL('js/controllers/AngularBMapController.js', 'angular'),
+                    workStation.toAppsURL('js/controllers/AngularSliderController.js', 'angular')
+                ]
+            }]
+        });
     }]);

@@ -56,7 +56,7 @@ module.exports = function (grunt) {
                     ],
                     port: 9006,
                     server: {
-                        baseDir: ['<%= config.app %>'],
+                        baseDir: ['<%= config.app %>', 'apps'],
                         routes: {
                             '/bower_components': './bower_components',
                             '/apps': './apps'
@@ -69,9 +69,9 @@ module.exports = function (grunt) {
                     background: false,
                     port: 9008,
                     server: {
-                        baseDir: ['<%= config.dist %>'],
+                        baseDir: ['<%= config.dist %>', 'apps'],
                         routes: {
-                            '/apps': './apps'
+                            '/apps': './wwws'
                         }
                     }
                 }
@@ -138,6 +138,12 @@ module.exports = function (grunt) {
                     cwd: 'bower_components/ionic/release',
                     src: 'fonts/*',
                     dest: '<%= config.dist %>'
+                }, {
+                    expand: true,
+                    dot: true,
+                    cwd: 'apps',
+                    src: 'config.txt',
+                    dest: 'wwws'
                 }, {
                     expand: true,
                     dot: true,
