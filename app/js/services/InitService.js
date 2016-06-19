@@ -1,7 +1,7 @@
 angular.module('WorkStation.services')
 
-.factory('InitService', ['$q', '$ocLazyLoad', 'ConfigService', 'DemoService', 'UtilService',  
-    function($q, $ocLazyLoad, ConfigService, DemoService, UtilService) {
+.factory('InitService', ['$q', '$ionicPlatform', '$ionicHistory', '$timeout', '$ocLazyLoad', '$cordovaToast', 'ConfigService', 'DemoService', 'UtilService', 'APPCONSTANTS',
+    function($q, $ionicPlatform, $ionicHistory, $timeout, $ocLazyLoad, $cordovaToast, ConfigService, DemoService, UtilService, APPCONSTANTS) {
         var defer = $q.defer();
 
         init();
@@ -9,7 +9,13 @@ angular.module('WorkStation.services')
         return defer.promise;
 
         function init() {
+            $ionicPlatform.registerBackButtonAction(
+                onHardwareBackButton,
+                APPCONSTANTS.platformBackButtonPriorityView
+            );
+
             publishExternalAPI();
+
             var tasks = [ConfigService.loadingPromise, DemoService.initPromise];
             $q.all(tasks).finally(function() {
                 defer.resolve();
@@ -34,6 +40,26 @@ angular.module('WorkStation.services')
           angular.module('WorkStation').requires.push(moduleName);
 
           return module;
+        }
+
+        var _confirmExit = false;
+        function onHardwareBackButton(e) {
+            if ($ionicHistory.backView()) {
+                $ionicHistory.goBack();
+            } else {
+                if (_confirmExit) {
+                    ionic.Platform.exitApp();
+                } else {
+                    _confirmExit = true;
+                    $cordovaToast.showShortBottom('再按一次退出');
+                    $timeout(function () {
+                        _confirmExit = false;
+                    }, APPCONSTANTS.exitAppConfirmTime);
+                }
+            }
+
+            e.preventDefault();
+            return false;
         }
     }
 ]);
