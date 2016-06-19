@@ -4,7 +4,6 @@ angular.module('WorkStation', [
     'oc.lazyLoad',
     'ngCordova',
     'ngDragDrop',
-    'angularAwesomeSlider',
 
     'ionicWS',
     'WorkStation.controllers',

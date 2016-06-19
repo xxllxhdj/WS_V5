@@ -1,11 +1,25 @@
 
 workStation.registerModule('angular', [])
 
-    .config(['$stateProvider', function ($stateProvider) {
+    .config(['$stateProvider', '$ocLazyLoadProvider', function ($stateProvider, $ocLazyLoadProvider) {
         $stateProvider
             .state('app.angular', {
                 url: '/angular',
-                templateUrl: workStation.toAppsURL('tpls/index.html', 'angular')
+                templateUrl: workStation.toAppsURL('tpls/index.html', 'angular'),
+                resolve: {
+                    loadFile: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                        var defer = $q.defer();
+                        
+                        $ocLazyLoad.load(['angular-awesome-slider']).then(function () {
+                            angular.module('angular').requires.push('angularAwesomeSlider');
+                            defer.resolve();
+                        }, function () {
+                            defer.reject();
+                        });
+
+                        return defer.promise;
+                    }]
+                }
             })
             .state('app.angularBMap', {
                 url: '/angularBMap',
@@ -17,4 +31,14 @@ workStation.registerModule('angular', [])
                 templateUrl: workStation.toAppsURL('tpls/angularSlider.html', 'angular'),
                 controller: 'AngularSliderController'
             });
+
+        $ocLazyLoadProvider.config({
+            modules: [{
+                name: 'angular-awesome-slider',
+                files: [
+                    workStation.toAppsURL('lib/angular-awesome-slider/css/angular-awesome-slider.min.css', 'angular'),
+                    workStation.toAppsURL('lib/angular-awesome-slider/angular-awesome-slider.js', 'angular')
+                ]
+            }]
+        });
     }]);

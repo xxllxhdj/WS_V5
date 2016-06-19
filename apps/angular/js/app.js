@@ -7,8 +7,17 @@ workStation.registerModule('angular', [])
                 url: '/angular',
                 templateUrl: workStation.toAppsURL('tpls/index.html', 'angular'),
                 resolve: {
-                    loadFile: ['$ocLazyLoad', function($ocLazyLoad) {
-                        return $ocLazyLoad.load(['angular.file']);
+                    loadFile: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                        var defer = $q.defer();
+                        
+                        $ocLazyLoad.load(['angular-awesome-slider', 'angular.file']).then(function () {
+                            angular.module('angular').requires.push('angularAwesomeSlider');
+                            defer.resolve();
+                        }, function () {
+                            defer.reject();
+                        });
+
+                        return defer.promise;
                     }]
                 }
             })
@@ -25,6 +34,12 @@ workStation.registerModule('angular', [])
 
         $ocLazyLoadProvider.config({
             modules: [{
+                name: 'angular-awesome-slider',
+                files: [
+                    workStation.toAppsURL('lib/angular-awesome-slider/css/angular-awesome-slider.min.css', 'angular'),
+                    workStation.toAppsURL('lib/angular-awesome-slider/angular-awesome-slider.js', 'angular')
+                ]
+            },{
                 name: 'angular.file',
                 files: [
                     workStation.toAppsURL('js/controllers/AngularBMapController.js', 'angular'),

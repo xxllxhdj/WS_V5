@@ -108,7 +108,8 @@ module.exports = function(grunt) {
                 src: [
                     '*.{png,jpg,jpeg,gif}',
                     '<%= config.images %>/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-                    'tpls/{,*/}*.html'
+                    'tpls/{,*/}*.html',
+                    'lib/**/*',
                 ]
             }
         }

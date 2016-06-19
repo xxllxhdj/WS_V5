@@ -144,12 +144,6 @@ module.exports = function (grunt) {
                     cwd: 'apps',
                     src: 'config.txt',
                     dest: 'wwws'
-                }, {
-                    expand: true,
-                    dot: true,
-                    cwd: 'bower_components/angular-awesome-slider/dist',
-                    src: 'img/*',
-                    dest: '<%= config.dist %>'
                 }]
             }
         },

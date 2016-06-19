@@ -11,8 +11,7 @@
     "WS_V5"
   ],
   "license": "MIT",
-  "devDependencies": {
-    "angular-awesome-slider": "~2.4.4",
+  "dependencies": {
     "angular-dragdrop": "~1.0.13",
     "ionic": "~1.2.4",
     "jquery": "~2.2.0",
