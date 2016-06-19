@@ -8,7 +8,7 @@ angular.module('WorkStation.controllers')
                 editing: false
             };
 
-            InitService.initPromise.then(init);
+            InitService.then(init);
 
             var reListSlideBox = $ionicSlideBoxDelegate.$getByHandle('slideApps'),
                 preIndex = 0;

@@ -6,9 +6,7 @@ angular.module('WorkStation.services')
 
         init();
 
-        return {
-            initPromise: defer.promise
-        };
+        return defer.promise;
 
         function init() {
             publishExternalAPI();

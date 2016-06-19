@@ -24,7 +24,7 @@ angular.module('WorkStation', [
                     StatusBar.styleDefault();
                 }
                 if (navigator.splashscreen) {
-                    InitService.initPromise.then(function () {
+                    InitService.then(function () {
                         $timeout(function () {
                             navigator.splashscreen.hide();
                             if (window.StatusBar) {
@@ -76,8 +76,8 @@ angular.module('WorkStation', [
                     templateUrl: 'tpls/demos.html',
                     controller: 'DemosCtrl',
                     resolve: {
-                        'loadingConfig': ['ConfigService', function (ConfigService) {
-                            return ConfigService.loadingPromise;
+                        'loadingConfig': ['InitService', function (InitService) {
+                            return InitService;
                         }]
                     }
                 })
