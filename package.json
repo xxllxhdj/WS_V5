@@ -43,10 +43,11 @@
     "org.apache.cordova.splashscreen",
     "phonegap-plugin-barcodescanner",
     "cordova-plugin-whitelist",
-    "nl.x-services.plugins.toast",
+    "cordova-plugin-x-toast",
     "cordova-plugin-inappbrowser",
     "cordova-plugin-file",
-    "de.appplant.cordova.plugin.badge"
+    "de.appplant.cordova.plugin.badge",
+    "cordova.plugins.diagnostic.api-22"
   ],
   "localPlugins": [
     "cordova-plugin-statusbar",

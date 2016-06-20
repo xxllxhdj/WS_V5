@@ -8,12 +8,7 @@ workStation.registerModule('ngcordova', [])
                 templateUrl: workStation.toAppsURL('tpls/index.html', 'ngcordova'),
                 resolve: {
                     loadFile: ['$ocLazyLoad', function($ocLazyLoad) {
-                        return $ocLazyLoad.load({
-                            name: 'ngcordova.file',
-                            files: [
-                                workStation.toAppsURL('js/controllers/SqliteController.js', 'ngcordova')
-                            ]
-                        });
+                        return $ocLazyLoad.load(['ngcordova.file']);
                     }]
                 }
             })
@@ -21,13 +16,19 @@ workStation.registerModule('ngcordova', [])
                 url: '/sqlite',
                 templateUrl: workStation.toAppsURL('tpls/sqlite.html', 'ngcordova'),
                 controller: 'SqliteController'
+            })
+            .state('app.diagnostic', {
+                url: '/diagnostic',
+                templateUrl: workStation.toAppsURL('tpls/diagnostic.html', 'ngcordova'),
+                controller: 'DiagnosticController'
             });
 
         $ocLazyLoadProvider.config({
             modules: [{
                 name: 'ngcordova.file',
                 files: [
-                    workStation.toAppsURL('js/controllers/SqliteController.js', 'ngcordova')
+                    workStation.toAppsURL('js/controllers/SqliteController.js', 'ngcordova'),
+                    workStation.toAppsURL('js/controllers/DiagnosticController.js', 'ngcordova')
                 ]
             }]
         });

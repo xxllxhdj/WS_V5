@@ -1,5 +1,5 @@
 
-angular.module('ionic')
+angular.module('ngcordova')
     .controller('SqliteController', ['$scope', 
         function ($scope) {
             $scope.data = {

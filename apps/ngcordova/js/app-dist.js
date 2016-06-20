@@ -11,5 +11,10 @@ workStation.registerModule('ngcordova', [])
                 url: '/sqlite',
                 templateUrl: workStation.toAppsURL('tpls/sqlite.html', 'ngcordova'),
                 controller: 'SqliteController'
+            })
+            .state('app.diagnostic', {
+                url: '/diagnostic',
+                templateUrl: workStation.toAppsURL('tpls/diagnostic.html', 'ngcordova'),
+                controller: 'DiagnosticController'
             });
     }]);
