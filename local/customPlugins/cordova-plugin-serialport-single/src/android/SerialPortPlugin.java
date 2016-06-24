@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidParameterException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android_serialport_api.SerialPort;
 import android_serialport_api.SerialPortFinder;
@@ -23,61 +25,95 @@ import android_serialport_api.SerialPortFinder;
 public class SerialPortPlugin extends CordovaPlugin {
 
     private SerialPort mSerialPort;
-    private OutputStream mOutputStream;
     private InputStream mInputStream;
-    private ReadThread mReadThread;
 
-    String mParser = "0A";
-    String mInputCache = "";
+    private String mParser = "";
+    private String mInputCache = "";
+    private boolean mIsTimer = true;
+    private boolean mThreadRunning = false;
+    private Timer mTimer;
 
     private class ReadThread extends Thread {
         @Override
-        public void run() {
-            super.run();
-            while (!isInterrupted()) {
+        public void run () {
+            while (mThreadRunning) {
                 try {
                     if (mInputStream == null) {
-                        return;
+                        continue;
                     }
                     byte[] buffer = new byte[64]; 
                     int size = mInputStream.read(buffer);
                     if (size <= 0) {
-                        return;
+                        continue;
                     }
                     String input = bytesToHexString(buffer, size);
                     mInputCache += input;
-                    if (mInputCache.endsWith(mParser)) {
-                        onDataReceived(mInputCache.substring(0, mInputCache.length() - mParser.length()));
-                        mInputCache = "";
+                    if (mParser.length() > 0) {
+                        if (mInputCache.endsWith(mParser)) {
+                            onDataReceived(mInputCache);
+                            mInputCache = "";
+                        }
+                    } else {
+                        if (!mIsTimer) {
+                            continue;
+                        }
+                        mIsTimer = false;
+                        if (mTimer != null) {
+                            mTimer.cancel();
+                        }
+                        mTimer = new Timer(); 
+                        mTimer.schedule(new TimerTask () {
+                            public void run () {
+                                if (mThreadRunning) {
+                                    onDataReceived(mInputCache);
+                                    mInputCache = "";
+                                    mIsTimer = true;
+                                }
+                            }
+                        }, 75);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                    return;
                 }
             }
+            if (mTimer != null) {
+                mTimer.cancel();
+                mTimer = null;
+            }
+            if (mSerialPort != null) {
+                mSerialPort.close();
+                mSerialPort = null;
+            }
+            mInputCache = "";
+            mInputStream = null;
+            mIsTimer = true;
         }
     }
 
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         
-        if (action.equals("getSerialPort")) {
+        if (action.equals("getAllDevices")) {
             SerialPortFinder serialPortFinder = new SerialPortFinder();
-            String[] entryValues = serialPortFinder.getAllDevicesPath();
+            String[] entryNames = serialPortFinder.getAllDevices();
+            String[] entryPaths = serialPortFinder.getAllDevicesPath();
             JSONArray resPorts = new JSONArray();
-            for (int i = 0; i < entryValues.length; i++) {
-                resPorts.put(i, entryValues[i]);
+            for (int i = 0; i < entryNames.length; i++) {
+                JSONObject port = new JSONObject();
+                port.put("name", entryNames[i]);
+                port.put("path", entryPaths[i]);
+                resPorts.put(i, port);
             }
             callbackContext.success(resPorts);
             serialPortFinder = null;
             return true;
         }
 
-        if (action.equals("openSerialPort")) {
+        if (action.equals("open")) {
             openSerialPort(args, callbackContext);
             return true;
         }
 
-        if (action.equals("closeSerialPort")) {
+        if (action.equals("close")) {
             closeSerialPort();
             return true;
         }
@@ -89,7 +125,7 @@ public class SerialPortPlugin extends CordovaPlugin {
         final String port = args.getString(0);
         final JSONObject options = args.getJSONObject(1);
         final int baudRate = options.has("baudrate") ? options.getInt("baudrate") : 9600;
-        mParser = options.has("parser") ? options.getString("parser") : "0A";
+        mParser = options.has("parser") ? options.getString("parser") : "";
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
                 try {
@@ -101,15 +137,12 @@ public class SerialPortPlugin extends CordovaPlugin {
                     }
                     mSerialPort = new SerialPort(new File(port), baudRate, 0);
 
-                    mOutputStream = mSerialPort.getOutputStream();
                     mInputStream = mSerialPort.getInputStream();
                     mInputCache = "";
+                    mIsTimer = true;
+                    mThreadRunning = true;
 
-                    if (mReadThread != null) {
-                        mReadThread.interrupt();
-                    }
-                    mReadThread = new ReadThread();
-                    mReadThread.start();
+                    new ReadThread().start();
                     
                     callbackContext.success();
                 } catch (Exception e) {
@@ -121,14 +154,7 @@ public class SerialPortPlugin extends CordovaPlugin {
     }
 
     private void closeSerialPort() {
-        if (mSerialPort != null) {
-            mSerialPort.close();
-            mSerialPort = null;
-        }
-        if (mReadThread != null) {
-            mReadThread.interrupt();
-        }
-        mInputCache = "";
+        mThreadRunning = false;
     }
 
     private void onDataReceived(final String input) {

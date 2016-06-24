@@ -34,7 +34,7 @@ angular.module('WorkStation', [
                     });
                 }
                 // if (window.cordova && cordova.plugins.SerialPort) {
-                //     cordova.plugins.SerialPort.open(9600, '0D0A03', function () {
+                //     cordova.plugins.SerialPort.open([], {}, function () {
                 //         document.addEventListener("serialport.DataReceived", function (e) {
                 //             alert(e.serialPortData);
                 //         }, false);

@@ -1,14 +1,14 @@
 var exec = require('cordova/exec');
 
-exports.getSerialPort = function (success, error) {
-	exec(success, error, "SerialPort", "getSerialPort", []);
+exports.getAllDevices = function (success, error) {
+	exec(success, error, "SerialPort", "getAllDevices", []);
 };
 
-exports.openSerialPort = function (port, options, success, error) {
+exports.open = function (port, options, success, error) {
     options = options || {};
-	exec(success, error, "SerialPort", "openSerialPort", [port, options]);
+	exec(success, error, "SerialPort", "open", [port, options]);
 };
 
-exports.closeSerialPort = function () {
-	exec(null, null, "SerialPort", "closeSerialPort", []);
+exports.close = function () {
+	exec(null, null, "SerialPort", "close", []);
 };

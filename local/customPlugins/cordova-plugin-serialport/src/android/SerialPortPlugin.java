@@ -39,25 +39,44 @@ public class SerialPortPlugin extends CordovaPlugin {
             callbackContext.success();
             return;
         }
-        final int baudRate = args.getInt(0);
-        final String parser = args.getString(1);
+        final JSONArray ports = args.getJSONArray(0);
+        final JSONObject options = args.getJSONObject(1);
+        final int baudRate = options.has("baudrate") ? options.getInt("baudrate") : 9600;
+        final String parser = options.has("parser") ? options.getString("parser") : "";
 
         final SerialPortPlugin instance = this;
 
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-                SerialPortFinder serialPortFinder = new SerialPortFinder();
-                String[] ports = serialPortFinder.getAllDevicesPath();
-                for (int i = 0; i < ports.length; i++) {
-                    SerialPortEntity serialPortEntity = new SerialPortEntity();
-                    if (serialPortEntity.open(ports[i], baudRate, parser, 0)) {
-                        serialPortEntity.setSerialPortPlugin(instance);
-                        mSerialPorts.add(serialPortEntity);
+                try {
+                    String[] tempPorts;
+                    if (ports.length() > 0) {
+                        tempPorts = new String[ports.length()];
+                        for (int i = 0; i < ports.length(); i++) {
+                            tempPorts[i] = ports.getString(i);
+                        }
                     } else {
-                        serialPortEntity.close();
+                        SerialPortFinder serialPortFinder = new SerialPortFinder();
+                        tempPorts = serialPortFinder.getAllDevicesPath();
                     }
+                    for (int i = 0; i < tempPorts.length; i++) {
+                        SerialPortEntity serialPortEntity = new SerialPortEntity();
+                        if (serialPortEntity.open(tempPorts[i], baudRate, parser, 0)) {
+                            serialPortEntity.setSerialPortPlugin(instance);
+                            mSerialPorts.add(serialPortEntity);
+                        } else {
+                            serialPortEntity.close();
+                        }
+                    }
+                    if (mSerialPorts.size() > 0) {
+                        callbackContext.success();
+                    } else {
+                        callbackContext.error("打开串口失败");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    callbackContext.error("打开串口失败");
                 }
-                callbackContext.success();
             }
         });
     }
@@ -73,13 +92,13 @@ public class SerialPortPlugin extends CordovaPlugin {
         mSerialPorts.removeAllElements();
     }
 
-    public void onDataReceived(final String input) {
+    public void onDataReceived(final String port, final String input) {
         try {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     String jsEvent = String.format(
-                            "cordova.fireDocumentEvent('serialport.DataReceived',{'serialPortData':'%s'})",
-                            input);
+                            "cordova.fireDocumentEvent('serialport.DataReceived',{'serialPort':'%s','serialPortData':'%s'})",
+                            port, input);
                     webView.sendJavascript(jsEvent);
                 }
             });

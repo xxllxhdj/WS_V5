@@ -5,17 +5,20 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android_serialport_api.SerialPort;
 
 public class SerialPortEntity {
 
+    private String mPort;
     private SerialPort mSerialPort;
-    private OutputStream mOutputStream;
     private InputStream mInputStream;
 
-    private ReadThread mReadThread;
     private boolean mStopThread;
+    private boolean mIsTimer = true;
+    private Timer mTimer;
 
     private String mParser;
     private String mInputCache = "";
@@ -24,28 +27,58 @@ public class SerialPortEntity {
 
     private class ReadThread extends Thread {
         @Override
-        public void run() {
+        public void run () {
             while (!mStopThread) {
                 try {
                     if (mInputStream == null) {
-                        return;
+                        continue;
                     }
                     byte[] buffer = new byte[64]; 
                     int size = mInputStream.read(buffer);
                     if (size <= 0) {
-                        return;
+                        continue;
                     }
                     String input = bytesToHexString(buffer, size);
                     mInputCache += input;
-                    if (mInputCache.endsWith(mParser)) {
-                        mSerialPortPlugin.onDataReceived(mInputCache.substring(0, mInputCache.length() - mParser.length()));
-                        mInputCache = "";
+                    if (mParser.length() > 0) {
+                        if (mInputCache.endsWith(mParser)) {
+                            mSerialPortPlugin.onDataReceived(mPort, mInputCache);
+                            mInputCache = "";
+                        }
+                    } else {
+                        if (!mIsTimer) {
+                            continue;
+                        }
+                        mIsTimer = false;
+                        if (mTimer != null) {
+                            mTimer.cancel();
+                        }
+                        mTimer = new Timer(); 
+                        mTimer.schedule(new TimerTask () {
+                            public void run () {
+                                if (!mStopThread) {
+                                    mSerialPortPlugin.onDataReceived(mPort, mInputCache);
+                                    mInputCache = "";
+                                    mIsTimer = true;
+                                }
+                            }
+                        }, 75);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
-                    return;
                 }
             }
+            if (mTimer != null) {
+                mTimer.cancel();
+                mTimer = null;
+            }
+            if (mSerialPort != null) {
+                mSerialPort.close();
+                mSerialPort = null;
+            }
+            mInputCache = "";
+            mInputStream = null;
+            mIsTimer = true;
         }
     }
 
@@ -58,19 +91,13 @@ public class SerialPortEntity {
             if ((port.length() == 0) || (baudrate == -1)) {
                 return false;
             }
+            mPort = port;
             mSerialPort = new SerialPort(new File(port), baudrate, flags);
-
-            mOutputStream = mSerialPort.getOutputStream();
             mInputStream = mSerialPort.getInputStream();
-
             mParser = parser;
-
-            if (mReadThread != null) {
-                mReadThread.interrupt();
-            }
-            mReadThread = new ReadThread();
+        
             mStopThread = false;
-            mReadThread.start();
+            new ReadThread().start();
 
             return true;
         } catch (Exception e) {
@@ -80,14 +107,7 @@ public class SerialPortEntity {
     }
 
     public void close() {
-        if (mReadThread != null) {
-            mStopThread = true;
-            mReadThread = null;
-        }
-        if (mSerialPort != null) {
-            mSerialPort.close();
-            mSerialPort = null;
-        }
+        mStopThread = true;
     }
 
     private String bytesToHexString(byte[] bArray, int size) {
