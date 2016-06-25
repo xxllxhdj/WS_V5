@@ -1,7 +1,7 @@
 
 angular.module('WorkStation.utility')
 
-    .factory('UtilService', ['$ocLazyLoad', 'APPCONSTANTS', function ($ocLazyLoad, APPCONSTANTS) {
+    .factory('Help', ['$ocLazyLoad', 'APPCONSTANTS', function ($ocLazyLoad, APPCONSTANTS) {
         var o = {};
 
         o.getAppFileDir = function () {

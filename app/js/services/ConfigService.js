@@ -1,8 +1,8 @@
 
 angular.module('WorkStation.services')
 
-    .factory('ConfigService', ['$q', '$http', '$cordovaFile', 'UtilService', 'APPCONSTANTS', 
-        function ($q, $http, $cordovaFile, UtilService, APPCONSTANTS) {
+    .factory('ConfigService', ['$q', '$http', '$cordovaFile', 'Help', 'APPCONSTANTS', 
+        function ($q, $http, $cordovaFile, Help, APPCONSTANTS) {
             var configDefer = $q.defer(),
                 config = {},
                 o = {
@@ -56,7 +56,7 @@ angular.module('WorkStation.services')
             }
             function initAppFileDir () {
                 var defer = $q.defer(),
-                    appFileDir = UtilService.getAppFileDir();
+                    appFileDir = Help.getAppFileDir();
                 $cordovaFile.checkDir(appFileDir, APPCONSTANTS.appName).then(function () {
                     defer.resolve();
                 }, function () {
@@ -69,7 +69,7 @@ angular.module('WorkStation.services')
             }
             function readConfigFile () {
                 var defer = $q.defer(),
-                    configFileDir = UtilService.getConfigDir();
+                    configFileDir = Help.getConfigDir();
                 $cordovaFile.checkFile(configFileDir, APPCONSTANTS.configFileName).then(function () {
                     $cordovaFile.readAsText(configFileDir, APPCONSTANTS.configFileName).then(function (data) {
                         defer.resolve(angular.fromJson(data));
@@ -86,7 +86,7 @@ angular.module('WorkStation.services')
                 var defer = $q.defer();
 
                 if (window.cordova) {
-                    $cordovaFile.writeFile(UtilService.getConfigDir(), APPCONSTANTS.configFileName, angular.toJson(config), true).then(function () {
+                    $cordovaFile.writeFile(Help.getConfigDir(), APPCONSTANTS.configFileName, angular.toJson(config), true).then(function () {
                         defer.resolve();
                     }, function () {
                         defer.reject();

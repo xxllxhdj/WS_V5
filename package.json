@@ -47,7 +47,8 @@
     "cordova-plugin-inappbrowser",
     "cordova-plugin-file",
     "de.appplant.cordova.plugin.badge",
-    "cordova.plugins.diagnostic.api-22"
+    "cordova.plugins.diagnostic.api-22",
+    "cordova-sqlite-storage"
   ],
   "localPlugins": [
     "cordova-plugin-statusbar",

@@ -1,7 +1,7 @@
 angular.module('WorkStation.services')
 
-.factory('InitService', ['$q', '$ionicPlatform', '$ionicHistory', '$timeout', '$ocLazyLoad', '$cordovaToast', 'ConfigService', 'DemoService', 'UtilService', 'APPCONSTANTS',
-    function($q, $ionicPlatform, $ionicHistory, $timeout, $ocLazyLoad, $cordovaToast, ConfigService, DemoService, UtilService, APPCONSTANTS) {
+.factory('InitService', ['$q', '$ionicPlatform', '$ionicHistory', '$timeout', '$ocLazyLoad', '$cordovaToast', 'ConfigService', 'DemoService', 'Help', 'APPCONSTANTS',
+    function($q, $ionicPlatform, $ionicHistory, $timeout, $ocLazyLoad, $cordovaToast, ConfigService, DemoService, Help, APPCONSTANTS) {
         var defer = $q.defer();
 
         init();
@@ -27,7 +27,7 @@ angular.module('WorkStation.services')
 
             workStation.load = $ocLazyLoad.load;
 
-            workStation.toAppsURL = UtilService.toAppsURL;
+            workStation.toAppsURL = Help.toAppsURL;
 
             workStation.registerModule = registerModule;
         }
