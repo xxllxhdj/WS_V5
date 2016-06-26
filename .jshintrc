@@ -20,6 +20,7 @@
         "cordova": true,
         "StatusBar": true,
         "workStation": true,
+        "echarts": true, 
         "console": true
     }
 }

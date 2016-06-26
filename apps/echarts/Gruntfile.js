@@ -20,7 +20,7 @@ module.exports = function(grunt) {
             images: 'img',
             scripts: 'js',
             temp: '.tmp',
-            dist: '../../wwws/angular'
+            dist: '../../wwws/echarts'
         },
 
         watch: {
@@ -109,7 +109,7 @@ module.exports = function(grunt) {
                     '*.{png,jpg,jpeg,gif}',
                     '<%= config.images %>/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
                     'tpls/{,*/}*.html',
-                    'lib/angular-awesome-slider/dist/**/*'
+                    'lib/echarts/dist/echarts.js'
                 ]
             }
         }

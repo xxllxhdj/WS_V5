@@ -1,0 +1,17 @@
+{
+  "name": "echarts",
+  "version": "5.0.0",
+  "homepage": "https://github.com/xxllxhdj/WS_V5",
+  "authors": [
+    "xuxl <xuxle@yonyou.com>"
+  ],
+  "description": "echarts",
+  "main": "app.js",
+  "keywords": [
+    "echarts"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "echarts": "^3.1.10"
+  }
+}

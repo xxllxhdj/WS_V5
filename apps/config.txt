@@ -12,5 +12,9 @@
         "id": "ngcordova",
         "name": "ngCordova",
         "logo": "ngcordova.png"
+    }, {
+        "id": "echarts",
+        "name": "echarts",
+        "logo": "echarts.png"
     }]
 }
