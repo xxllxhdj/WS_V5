@@ -1,0 +1,17 @@
+{
+  "name": "angular",
+  "version": "5.0.0",
+  "homepage": "https://github.com/xxllxhdj/WS_V5",
+  "authors": [
+    "xuxl <xuxle@yonyou.com>"
+  ],
+  "description": "angular",
+  "main": "app.js",
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular-awesome-slider": "^2.4.4"
+  }
+}

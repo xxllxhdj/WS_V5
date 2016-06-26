@@ -109,7 +109,7 @@ module.exports = function(grunt) {
                     '*.{png,jpg,jpeg,gif}',
                     '<%= config.images %>/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
                     'tpls/{,*/}*.html',
-                    'lib/**/*',
+                    'lib/angular-awesome-slider/dist/**/*',
                 ]
             }
         }

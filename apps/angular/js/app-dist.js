@@ -36,8 +36,8 @@ workStation.registerModule('angular', [])
             modules: [{
                 name: 'angular-awesome-slider',
                 files: [
-                    workStation.toAppsURL('lib/angular-awesome-slider/css/angular-awesome-slider.min.css', 'angular'),
-                    workStation.toAppsURL('lib/angular-awesome-slider/angular-awesome-slider.js', 'angular')
+                    workStation.toAppsURL('lib/angular-awesome-slider/dist/css/angular-awesome-slider.min.css', 'angular'),
+                    workStation.toAppsURL('lib/angular-awesome-slider/dist/angular-awesome-slider.js', 'angular')
                 ]
             }]
         });
