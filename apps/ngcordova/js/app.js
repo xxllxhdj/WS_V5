@@ -15,7 +15,12 @@ workStation.registerModule('ngcordova', [])
             .state('app.sqlite', {
                 url: '/sqlite',
                 templateUrl: workStation.toAppsURL('tpls/sqlite.html', 'ngcordova'),
-                controller: 'SqliteController'
+                controller: 'SqliteController',
+                resolve: {
+                    loaded: ['SqliteService', function(SqliteService) {
+                        return SqliteService.loadPromise;
+                    }]
+                }
             })
             .state('app.diagnostic', {
                 url: '/diagnostic',
@@ -28,7 +33,8 @@ workStation.registerModule('ngcordova', [])
                 name: 'ngcordova.file',
                 files: [
                     workStation.toAppsURL('js/controllers/SqliteController.js', 'ngcordova'),
-                    workStation.toAppsURL('js/controllers/DiagnosticController.js', 'ngcordova')
+                    workStation.toAppsURL('js/controllers/DiagnosticController.js', 'ngcordova'),
+                    workStation.toAppsURL('js/services/SqliteService.js', 'ngcordova')
                 ]
             }]
         });
