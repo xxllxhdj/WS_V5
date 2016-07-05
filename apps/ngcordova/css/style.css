@@ -1,0 +1,16 @@
+
+/**********************************************************sqlite******************************************************/
+
+.sqlite-view .scroll-content .card > .item.item-button-right {
+    min-height: 37px;
+}
+.sqlite-view .scroll-content .card > .item.item-button-right > .buttons {
+    top: 1px;
+}
+
+.sqlite-view .scroll-content .card > .item > .list-inset {
+    margin: 0;
+    border: 1px solid #ddd;
+}
+
+/**********************************************************sqlite******************************************************/

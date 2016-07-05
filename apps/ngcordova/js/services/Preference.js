@@ -15,12 +15,16 @@ angular.module('ngcordova')
         }
         return upset(key, value);
     };
-    o.get = function (key) {
+    o.get = function (key, notString) {
         var defer = $q.defer();
 
         find(key).then(function (resultSet) {
             if (resultSet.rows.length > 0) {
-                defer.resolve(angular.fromJson(resultSet.rows.item(0).value));
+                var value = resultSet.rows.item(0).value;
+                if (notString) {
+                    value = angular.fromJson(value);
+                }
+                defer.resolve(value);
             } else {
                 defer.reject('没有找到该参数');
             }

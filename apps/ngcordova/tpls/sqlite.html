@@ -1,4 +1,42 @@
-<ion-view title="Cordova-sqlite-storage">
-    <ion-content>
+<ion-view title="Cordova-sqlite-storage" class="sqlite-view">
+    <ion-content class="has-tabs">
+        <div class="card">
+            <div class="item item-divider">String</div>
+            <div class="item">
+                <div class="list list-inset">
+                    <label class="item item-input">
+                        <input type="text" ng-model="data.strKey" placeholder="Key">
+                    </label>
+                    <label class="item item-input">
+                        <input type="text" ng-model="data.strValue" placeholder="Value">
+                    </label>
+                </div>
+            </div>
+            <div class="item item-divider item-button-right">
+                <div class="buttons">
+                    <button class="button" ng-click="setString()">Set</button>
+                    <button class="button" ng-click="getString()">Get</button>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="item item-divider">Number</div>
+            <div class="item">
+                <div class="list list-inset">
+                    <label class="item item-input">
+                        <input type="text" ng-model="data.numKey" placeholder="Key">
+                    </label>
+                    <label class="item item-input">
+                        <input type="number" ng-model="data.numValue" placeholder="Value">
+                    </label>
+                </div>
+            </div>
+            <div class="item item-divider item-button-right">
+                <div class="buttons">
+                    <button class="button" ng-click="setNumber()">Set</button>
+                    <button class="button" ng-click="getNumber()">Get</button>
+                </div>
+            </div>
+        </div>
     </ion-content>
 </ion-view>
