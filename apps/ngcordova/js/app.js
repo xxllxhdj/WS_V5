@@ -17,8 +17,8 @@ workStation.registerModule('ngcordova', [])
                 templateUrl: workStation.toAppsURL('tpls/sqlite.html', 'ngcordova'),
                 controller: 'SqliteController',
                 resolve: {
-                    loaded: ['SqliteService', function(SqliteService) {
-                        return SqliteService.loadPromise;
+                    loaded: ['Preference', function(Preference) {
+                        return Preference.loadPromise;
                     }]
                 }
             })
@@ -34,7 +34,7 @@ workStation.registerModule('ngcordova', [])
                 files: [
                     workStation.toAppsURL('js/controllers/SqliteController.js', 'ngcordova'),
                     workStation.toAppsURL('js/controllers/DiagnosticController.js', 'ngcordova'),
-                    workStation.toAppsURL('js/services/SqliteService.js', 'ngcordova')
+                    workStation.toAppsURL('js/services/Preference.js', 'ngcordova')
                 ]
             }]
         });
