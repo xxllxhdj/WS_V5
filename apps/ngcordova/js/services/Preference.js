@@ -10,19 +10,33 @@ angular.module('ngcordova')
     var _db;
 
     o.set = function (key, value) {
-        if (!angular.isString(value)) {
+        var type = '';
+        if (angular.isObject(value)) {
+            type = 'object';
+        } else if (angular.isNumber(value)) {
+            type = 'number';
+        } else if (angular.isDate(value)) {
+            type = 'date';
+        } else {
+            type = 'string';
+        }
+        if (type !== 'string') {
             value = angular.toJson(value);
         }
-        return upset(key, value);
+        return upset(key, value, type);
     };
-    o.get = function (key, notString) {
+    o.get = function (key) {
         var defer = $q.defer();
 
         find(key).then(function (resultSet) {
             if (resultSet.rows.length > 0) {
-                var value = resultSet.rows.item(0).value;
-                if (notString) {
+                var value = resultSet.rows.item(0).value,
+                    type = resultSet.rows.item(0).type;
+                if (type !== 'string') {
                     value = angular.fromJson(value);
+                }
+                if (type === 'date') {
+                    value = new Date(value);
                 }
                 defer.resolve(value);
             } else {
@@ -41,7 +55,7 @@ angular.module('ngcordova')
 
     function init () {
         openDatabase({name: 'my.db', location: 'default'}).then(function () {
-            return executeSql('CREATE TABLE IF NOT EXISTS Preference (key text primary key, value text)');
+            return executeSql('CREATE TABLE IF NOT EXISTS Preference (key text primary key, value text, type text)');
         }).then(function () {}, function (err) {
             if (err) {
                 wsDialog.tipsBottom(err);
@@ -70,12 +84,12 @@ angular.module('ngcordova')
         var sql = "INSERT INTO Preference (key, value) VALUES (?,?)";
         return executeSql(sql, [key, value]);
     }
-    function upset (key, value) {
-        var sql = "REPLACE INTO Preference (key, value) VALUES (?,?)";
-        return executeSql(sql, [key, value]);
+    function upset (key, value, type) {
+        var sql = "REPLACE INTO Preference (key, value, type) VALUES (?,?,?)";
+        return executeSql(sql, [key, value, type]);
     }
     function find (key) {
-        var sql = "SELECT value FROM Preference WHERE key = ?";
+        var sql = "SELECT value,type FROM Preference WHERE key = ?";
         return executeSql(sql, [key]);
     }
     function update (key, value) {

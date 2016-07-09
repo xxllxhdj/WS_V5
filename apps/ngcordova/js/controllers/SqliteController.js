@@ -49,7 +49,7 @@ angular.module('ngcordova')
             wsDialog.tipsBottom('请输入Key');
             return;
         }
-        Preference.get($scope.data.numKey, true).then(function (value) {
+        Preference.get($scope.data.numKey).then(function (value) {
             $scope.data.numValue = value;
             wsDialog.tipsBottom('获取成功');
         }, function (err) {
