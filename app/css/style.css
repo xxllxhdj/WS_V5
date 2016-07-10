@@ -121,7 +121,7 @@ a:focus {
 .platform-android.platform-cordova:not(.fullscreen) .blur-wrapper {
     top: -20px;
 }
-.blur-wrapper > img {
+/*.blur-wrapper > img {
     position: absolute;
     top: 0;
     left: -20px;
@@ -131,7 +131,7 @@ a:focus {
     -webkit-filter: blur(15px);
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
-}
+}*/
 
 /*********************************************************app.html*****************************************************/
 
