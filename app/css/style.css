@@ -80,6 +80,19 @@ a:focus {
 
 /**********************************************************Common******************************************************/
 
+/*******************************************************fitImmersive***************************************************/
+
+.fit-immersive .action-sheet-backdrop,
+.fit-immersive .backdrop,
+.fit-immersive .modal-backdrop,
+.fit-immersive .modal-backdrop-bg,
+.fit-immersive .popover-backdrop,
+.fit-immersive .iframe-wrapper {
+    position: absolute;
+}
+
+/*******************************************************fitImmersive***************************************************/
+
 /*********************************************************app.html*****************************************************/
 
 .side-menu-left .bar {

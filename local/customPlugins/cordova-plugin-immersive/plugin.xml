@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-plugin-immersive" version="0.1">
+
+    <name>Immersive</name>
+    <description>Cordova Plugin</description>
+
+    <js-module src="www/immersive.js" name="immersive">
+        <clobbers target="cordova.plugins.Immersive"/>
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+
+        <source-file src="src/android/ImmersivePlugin.java" target-dir="src/cn/xxl/cordova/immersive"/>
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Immersive">
+                <param name="android-package" value="cn.xxl.cordova.immersive.ImmersivePlugin"/>
+            </feature>
+        </config-file>
+
+    </platform>
+</plugin>

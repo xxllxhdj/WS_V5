@@ -4,9 +4,8 @@ exports.getAllDevices = function (success, error) {
 	exec(success, error, "SerialPort", "getAllDevices", []);
 };
 
-exports.open = function (port, options, success, error) {
-    options = options || {};
-	exec(success, error, "SerialPort", "open", [port, options]);
+exports.open = function (options, success, error) {
+	exec(success, error, "SerialPort", "open", [options]);
 };
 
 exports.close = function () {

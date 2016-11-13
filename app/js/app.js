@@ -23,6 +23,7 @@ angular.module('WorkStation', [
                 if (window.StatusBar) {
                     StatusBar.styleDefault();
                 }
+                fitImmersive();
                 if (navigator.splashscreen) {
                     InitService.then(function () {
                         $timeout(function () {
@@ -33,26 +34,23 @@ angular.module('WorkStation', [
                         }, APPCONSTANTS.splashScreenExtraDelay);
                     });
                 }
-                // if (window.cordova && cordova.plugins.SerialPort) {
-                //     cordova.plugins.SerialPort.open([], {}, function () {
-                //         document.addEventListener("serialport.DataReceived", function (e) {
-                //             alert(e.serialPortData);
-                //         }, false);
-                //         alert('打开串口成功');
-                //     }, function () {
-                //         alert('打开串口失败');
-                //     });
-                // } else {
-                //     alert('请安装SerialPort插件');
-                // }
-                // if (window.cordova && cordova.plugins.Network) {
-                //     cordova.plugins.Network.getInfo(function (result) {
-                //         alert(angular.toJson(result));
-                //     });
-                // } else {
-                //     alert('请安装Network插件');
-                // }
             });
+
+            function fitImmersive () {
+                if (!window.cordova || !window.cordova.plugins.Immersive) {
+                    return;
+                }
+                cordova.plugins.Immersive.getImmersive(function (info) {
+                    if (info.immersive) {
+                        var ionicBody = angular.element(document.body);
+
+                        ionicBody.addClass('fit-immersive');
+
+                        ionicBody.css('position', 'absolute');
+                        ionicBody.css('bottom', info.immersive);
+                    }
+                });
+            }
         }
     ])
 

@@ -43,13 +43,22 @@ public class SerialPortPlugin extends CordovaPlugin {
 
         public void closePort () {
             mThreadRunning = false;
+
+            if (mTimer != null) {
+                mTimer.cancel();
+                mTimer = null;
+            }
+            if (mSerialPort != null) {
+                mSerialPort.close();
+                mSerialPort = null;
+            }
         }
 
         @Override
         public void run () {
             while (mThreadRunning) {
                 try {
-                    if (mInputStream == null) {
+                    if (mInputStream == null || mInputStream.available() == 0) {
                         continue;
                     }
                     byte[] buffer = new byte[64]; 
@@ -76,7 +85,7 @@ public class SerialPortPlugin extends CordovaPlugin {
                                     mInputCache = "";
                                 }
                             }
-                        }, 50);
+                        }, 100);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -85,10 +94,6 @@ public class SerialPortPlugin extends CordovaPlugin {
             if (mTimer != null) {
                 mTimer.cancel();
                 mTimer = null;
-            }
-            if (mSerialPort != null) {
-                mSerialPort.close();
-                mSerialPort = null;
             }
             mInputCache = "";
             mInputStream = null;
@@ -127,8 +132,12 @@ public class SerialPortPlugin extends CordovaPlugin {
     }
 
     private void openSerialPort(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        final String port = args.getString(0);
-        final JSONObject options = args.getJSONObject(1);
+        final JSONObject options = args.getJSONObject(0);
+        if (!options.has("port")) {
+            callbackContext.error("打开串口失败");
+            return;
+        }
+        final String port = options.getString("port");
         final int baudRate = options.has("baudrate") ? options.getInt("baudrate") : 9600;
         final String parser = options.has("parser") ? options.getString("parser") : "";
         cordova.getThreadPool().execute(new Runnable() {
@@ -139,7 +148,7 @@ public class SerialPortPlugin extends CordovaPlugin {
                         throw new InvalidParameterException();
                     }
                     if (mReadThread != null) {
-                        mReadThread.closePort();
+                        closeSerialPort();
                     }
                     serialPort = new SerialPort(new File(port), baudRate, 0);
                 } catch (Exception e) {
@@ -160,6 +169,7 @@ public class SerialPortPlugin extends CordovaPlugin {
     private void closeSerialPort() {
         if (mReadThread != null) {
             mReadThread.closePort();
+            mReadThread = null;
         }
     }
 
