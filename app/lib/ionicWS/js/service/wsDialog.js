@@ -3,25 +3,25 @@ angular.module('ionicWS')
 
 .factory('wsDialog', ['wsToast', function (wsToast) {
     return {
-        tipsTop: tipsTop,
-        tipsCenter: tipsCenter,
-        tipsBottom: tipsBottom
+        toastTop: toastTop,
+        toastCenter: toastCenter,
+        toastBottom: toastBottom
     };
-    function tipsTop (tips) {
+    function toastTop (tips) {
         return wsToast.show({
             message: tips,
             position: 'top',
             duration: 'short'
         });
     }
-    function tipsCenter (tips) {
+    function toastCenter (tips) {
         return wsToast.show({
             message: tips,
             position: 'center',
             duration: 'short'
         });
     }
-    function tipsBottom (tips) {
+    function toastBottom (tips) {
         return wsToast.show({
             message: tips,
             position: 'bottom',

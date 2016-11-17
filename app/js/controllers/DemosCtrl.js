@@ -26,7 +26,7 @@ angular.module('WorkStation.controllers')
                 Help.loadApp(app.id).then(function () {
                     $state.go('app.' + app.id);
                 }, function () {
-                    wsDialog.tipsBottom('加载Demo失败，请确认是否已安装然后重试。');
+                    wsDialog.toastBottom('加载失败，请确认是否已安装然后重试。');
                 });
             };
             $scope.onDragStart = function () {
