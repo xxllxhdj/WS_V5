@@ -1,0 +1,2 @@
+
+angular.module('ionicWS', ['ionic']);
