@@ -21,5 +21,10 @@ workStation.registerModule('ngcordova', [])
                 url: '/diagnostic',
                 templateUrl: workStation.toAppsURL('tpls/diagnostic.html', 'ngcordova'),
                 controller: 'DiagnosticController'
+            })
+            .state('app.jpush', {
+                url: '/jpush',
+                templateUrl: workStation.toAppsURL('tpls/jpush.html', 'ngcordova'),
+                controller: 'JPushController'
             });
     }]);

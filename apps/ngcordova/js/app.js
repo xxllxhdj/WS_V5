@@ -26,6 +26,11 @@ workStation.registerModule('ngcordova', [])
                 url: '/diagnostic',
                 templateUrl: workStation.toAppsURL('tpls/diagnostic.html', 'ngcordova'),
                 controller: 'DiagnosticController'
+            })
+            .state('app.jpush', {
+                url: '/jpush',
+                templateUrl: workStation.toAppsURL('tpls/jpush.html', 'ngcordova'),
+                controller: 'JPushController'
             });
 
         $ocLazyLoadProvider.config({
@@ -34,6 +39,7 @@ workStation.registerModule('ngcordova', [])
                 files: [
                     workStation.toAppsURL('js/controllers/SqliteController.js', 'ngcordova'),
                     workStation.toAppsURL('js/controllers/DiagnosticController.js', 'ngcordova'),
+                    workStation.toAppsURL('js/controllers/JPushController.js', 'ngcordova'),
                     workStation.toAppsURL('js/services/Preference.js', 'ngcordova')
                 ]
             }]
