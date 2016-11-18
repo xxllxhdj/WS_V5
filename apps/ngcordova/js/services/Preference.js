@@ -58,7 +58,7 @@ angular.module('ngcordova')
             return executeSql('CREATE TABLE IF NOT EXISTS Preference (key text primary key, value text, type text)');
         }).then(function () {}, function (err) {
             if (err) {
-                wsDialog.tipsBottom(err);
+                wsDialog.toastBottom(err);
             }
         }).finally(function () {
             prefDefer.resolve();
