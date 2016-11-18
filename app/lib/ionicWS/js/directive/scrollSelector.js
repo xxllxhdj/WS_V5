@@ -6,8 +6,9 @@ angular.module('ionicWS')
         restrict: 'E',
         scope: {
             list: '=',
-            selected: '=',
-            displayField: '@'
+            value: '=',
+            displayField: '@',
+            onChange: '&'
         },
         replace: true,
         template:
@@ -17,7 +18,9 @@ angular.module('ionicWS')
             '<ion-scroll has-bouncing="true" class="scroll-selector-content" scrollbar-y="false" on-scroll="onScroll()">' +
                 '<ion-list>' +
                     '<ion-item></ion-item>' +
+                    '<ion-item></ion-item>' +
                     '<ion-item ng-repeat="t in list">{{t[displayField]}}</ion-item>' +
+                    '<ion-item></ion-item>' +
                     '<ion-item></ion-item>' +
                 '</ion-list>' +
             '</ion-scroll>' +
@@ -38,7 +41,7 @@ angular.module('ionicWS')
             function prelink($scope, $element, $attr) {
                 var index = 0;
                 var timeOut = null;
-                var height = 34;
+                var height = 40;
 
                 $timeout(init);
 
@@ -72,7 +75,7 @@ angular.module('ionicWS')
                     if (pos.top < 0 || pos.top > scrollView.__maxScrollTop) {
                         return;
                     }
-                    var tmpIndex = parseInt(pos.top / height + 0.5) + 1;
+                    var tmpIndex = parseInt(pos.top / height + 0.5) + 2;
                     var len = $scope.list.length + 2;
                     if (tmpIndex < 0) {
                         tmpIndex = 0;
@@ -120,9 +123,11 @@ angular.module('ionicWS')
                     if (tmpIndex >= $scope.list.length) {
                         tmpIndex = $scope.list.length - 1;
                     }
-                    $scope.$apply(function() {
-                        $scope.selected = $scope.list[tmpIndex][$attr.valueField];
-                    });
+                    if ($scope.onChange) {
+                        $scope.$apply(function() {
+                            $scope.onChange({ selected: $scope.list[tmpIndex] });
+                        });
+                    }
                 }
             }
         }

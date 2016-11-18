@@ -11,5 +11,10 @@ workStation.registerModule('ionic', [])
                 url: '/hugedata',
                 templateUrl: workStation.toAppsURL('tpls/hugeData.html', 'ionic'),
                 controller: 'HugeDataController'
+            })
+            .state('app.scroller', {
+                url: '/scroller',
+                templateUrl: workStation.toAppsURL('tpls/scroller.html', 'ionic'),
+                controller: 'ScrollerController'
             });
     }]);

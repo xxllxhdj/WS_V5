@@ -74,15 +74,15 @@
 }
 .scroll-selector .scroll-selector-content {
     width: 100%;
-    height: 102px;
+    height: 200px;
     margin-top: 0;
 }
 .scroll-selector-content .item {
     text-align: center;
-    padding: 6px;
+    padding: 10px;
     background: transparent;
     border: none;
-    height: 34px;
+    height: 40px;
     margin-top: 0;
     margin-bottom: 0;
     color: #b6b6b6;
@@ -92,9 +92,9 @@
 }
 .scroll-selector .select-box {
     position: absolute;
-    top: 33.333333%;
+    top: 40%;
     width: 100%;
-    height: 34px;
+    height: 40px;
     border-top: 1px solid #dcdcdc;
     border-bottom: 1px solid #dcdcdc;
 }
