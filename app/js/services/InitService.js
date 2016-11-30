@@ -16,11 +16,6 @@ angular.module('WorkStation.services')
 
             $ionicPlatform.ready(initJPush);
 
-            document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false);
-            document.addEventListener("jpush.openNotification", onOpenNotification, false);
-            document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
-            document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
-
             publishExternalAPI();
 
             var tasks = [ConfigService.loadingPromise, DemoService.initPromise];
@@ -73,6 +68,10 @@ angular.module('WorkStation.services')
             if (!window.cordova || !window.plugins.jPushPlugin) {
                 return;
             }
+            document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false);
+            document.addEventListener("jpush.openNotification", onOpenNotification, false);
+            document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
+            document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
             try {
                 window.plugins.jPushPlugin.init();
                 if (!ionic.Platform.isAndroid()) {
@@ -131,10 +130,18 @@ angular.module('WorkStation.services')
                 var message;
                 if (ionic.Platform.isAndroid()) {
                     message = event.message;
+                    window.plugins.jPushPlugin.addLocalNotification(
+                        event.extras['cn.jpush.android.MSG_ID'],
+                        event.message,
+                        "",
+                        event.extras['cn.jpush.android.MSG_ID'],
+                        event.timeStamp
+                    );
                 } else {
                     message = event.content;
                 }
-                alert("receive Message:" + message);
+                //alert("receive Message:" + message);
+                alert("receive Message:" + angular.toJson(event));
             } catch (exception) {
                 console.log("JPushPlugin:onReceiveMessage-->" + exception);
             }

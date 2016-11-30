@@ -13,8 +13,7 @@ angular.module('ionicWS')
         replace: true,
         template:
         '<div class="scroll-selector">' +
-            '<div class="select-box">' +
-            '</div>' +
+            '<div class="select-box"></div>' +
             '<ion-scroll has-bouncing="true" class="scroll-selector-content" scrollbar-y="false" on-scroll="onScroll()">' +
                 '<ion-list>' +
                     '<ion-item></ion-item>' +
