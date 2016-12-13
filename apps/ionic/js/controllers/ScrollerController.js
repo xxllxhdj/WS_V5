@@ -1,7 +1,6 @@
 
 angular.module('ionic')
-
-.controller('ScrollerController', ['$scope', 
+.controller('ScrollerController', ['$scope',
     function ($scope) {
         $scope.data = {
             selected: '3',

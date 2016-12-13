@@ -24,7 +24,7 @@ angular.module('WorkStation.services')
             });
         }
 
-        function publishExternalAPI () {
+        function publishExternalAPI() {
             var workStation = window.workStation || (window.workStation = {});
 
             workStation.load = $ocLazyLoad.load;
@@ -34,17 +34,18 @@ angular.module('WorkStation.services')
             workStation.registerModule = registerModule;
         }
 
-        function registerModule (moduleName, dependencies) {
-          // Create angular module
-          var module = angular.module(moduleName, dependencies || []);
+        function registerModule(moduleName, dependencies) {
+            // Create angular module
+            var module = angular.module(moduleName, dependencies || []);
 
-          // Add the module to the AngularJS configuration file
-          angular.module('WorkStation').requires.push(moduleName);
+            // Add the module to the AngularJS configuration file
+            angular.module('WorkStation').requires.push(moduleName);
 
-          return module;
+            return module;
         }
 
         var _confirmExit = false;
+
         function onHardwareBackButton(e) {
             if ($ionicHistory.backView()) {
                 $ionicHistory.goBack();
@@ -54,7 +55,7 @@ angular.module('WorkStation.services')
                 } else {
                     _confirmExit = true;
                     $cordovaToast.showShortBottom('再按一次退出');
-                    $timeout(function () {
+                    $timeout(function() {
                         _confirmExit = false;
                     }, APPCONSTANTS.exitAppConfirmTime);
                 }
@@ -64,14 +65,14 @@ angular.module('WorkStation.services')
             return false;
         }
 
-        function initJPush () {
+        function initJPush() {
             if (!window.cordova || !window.plugins.jPushPlugin) {
                 return;
             }
-            document.addEventListener("jpush.setTagsWithAlias", onTagsWithAlias, false);
-            document.addEventListener("jpush.openNotification", onOpenNotification, false);
-            document.addEventListener("jpush.receiveNotification", onReceiveNotification, false);
-            document.addEventListener("jpush.receiveMessage", onReceiveMessage, false);
+            document.addEventListener('jpush.setTagsWithAlias', onTagsWithAlias, false);
+            document.addEventListener('jpush.openNotification', onOpenNotification, false);
+            document.addEventListener('jpush.receiveNotification', onReceiveNotification, false);
+            document.addEventListener('jpush.receiveMessage', onReceiveMessage, false);
             try {
                 window.plugins.jPushPlugin.init();
                 if (!ionic.Platform.isAndroid()) {
@@ -86,18 +87,18 @@ angular.module('WorkStation.services')
             }
         }
 
-        function onTagsWithAlias (event) {
+        function onTagsWithAlias(event) {
             try {
-                var result = "result code:" + event.resultCode + " ";
-                result += "tags:" + event.tags + " ";
-                result += "alias:" + event.alias + " ";
-                alert("onTagsWithAlias:" + result);
+                var result = 'result code:' + event.resultCode + ' ';
+                result += 'tags:' + event.tags + ' ';
+                result += 'alias:' + event.alias + ' ';
+                alert('onTagsWithAlias:' + result);
             } catch (exception) {
                 console.log(exception);
             }
         }
 
-        function onOpenNotification (event) {
+        function onOpenNotification(event) {
             try {
                 var alertContent;
                 if (ionic.Platform.isAndroid()) {
@@ -105,13 +106,13 @@ angular.module('WorkStation.services')
                 } else {
                     alertContent = event.aps.alert;
                 }
-                alert("open Notification:" + alertContent);
+                alert('open Notification:' + alertContent);
             } catch (exception) {
-                console.log("JPushPlugin:onOpenNotification" + exception);
+                console.log('JPushPlugin:onOpenNotification' + exception);
             }
         }
 
-        function onReceiveNotification (event) {
+        function onReceiveNotification(event) {
             try {
                 var alertContent;
                 if (ionic.Platform.isAndroid()) {
@@ -119,13 +120,13 @@ angular.module('WorkStation.services')
                 } else {
                     alertContent = event.aps.alert;
                 }
-                alert("receive Notification:" + alertContent);
+                alert('receive Notification:' + alertContent);
             } catch (exception) {
                 console.log(exception);
             }
         }
 
-        function onReceiveMessage (event) {
+        function onReceiveMessage(event) {
             try {
                 var message;
                 if (ionic.Platform.isAndroid()) {
@@ -133,17 +134,17 @@ angular.module('WorkStation.services')
                     window.plugins.jPushPlugin.addLocalNotification(
                         event.extras['cn.jpush.android.MSG_ID'],
                         event.message,
-                        "",
+                        '',
                         event.extras['cn.jpush.android.MSG_ID'],
                         event.timeStamp
                     );
                 } else {
                     message = event.content;
                 }
-                //alert("receive Message:" + message);
-                alert("receive Message:" + angular.toJson(event));
+                // alert('receive Message:' + message);
+                alert('receive Message:' + angular.toJson(event));
             } catch (exception) {
-                console.log("JPushPlugin:onReceiveMessage-->" + exception);
+                console.log('JPushPlugin:onReceiveMessage-->' + exception);
             }
         }
     }

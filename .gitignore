@@ -10,3 +10,4 @@ plugins/
 /www/
 /wwws/
 resources/android/
+*.log

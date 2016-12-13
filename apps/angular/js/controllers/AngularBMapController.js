@@ -1,5 +1,5 @@
-
 angular.module('ionic')
-    .controller('AngularBMapController', ['$scope', function ($scope) {
-         $scope.hValue = "50";
-    }]);
+
+.controller('AngularBMapController', ['$scope', function($scope) {
+    $scope.hValue = '50';
+}]);

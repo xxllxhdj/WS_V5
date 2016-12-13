@@ -59,7 +59,7 @@ angular.module('WorkStation', [
 
             $ocLazyLoadProvider.config({
                 debug: false,
-                events: true,
+                events: true
             });
 
             $stateProvider
@@ -106,7 +106,7 @@ angular.module('WorkStation', [
     ]);
 
 (function () {
-    document.addEventListener("deviceready", onReady, false);
+    document.addEventListener('deviceready', onReady, false);
 
     if (typeof cordova === 'undefined') {
         angular.element(document).ready(onReady);
