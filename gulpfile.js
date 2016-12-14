@@ -12,8 +12,6 @@ const $ = gulpLoadPlugins({
 });
 const reload = browserSync.reload;
 
-var dev = true;
-
 // CSS linting task
 gulp.task('csslint', function() {
     return gulp.src('app/css/**/*.css')
@@ -66,6 +64,14 @@ gulp.task('templatecache', function() {
             module: 'WorkStation'
         }))
         .pipe(gulp.dest('.tmp'));
+});
+
+gulp.task('extras', () => {
+    return gulp.src([
+        'apps/config.txt'
+    ], {
+        dot: true
+    }).pipe(gulp.dest('wwws'));
 });
 
 gulp.task('clean', del.bind(null, ['.tmp', 'www']));
@@ -128,13 +134,12 @@ gulp.task('lint', function(done) {
     runSequence(['csslint', 'eslint'], done);
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'fonts'], () => {
+gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
     return gulp.src('www/**/*').pipe($.size({ title: 'build', gzip: true }));
 });
 
 gulp.task('default', () => {
     return new Promise(resolve => {
-        dev = false;
         runSequence(['clean', 'wiredep', 'templatecache'], 'build', resolve);
     });
 });
