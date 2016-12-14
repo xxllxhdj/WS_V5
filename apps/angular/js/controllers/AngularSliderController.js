@@ -1,4 +1,4 @@
-angular.module('ionic')
+angular.module('angular')
     .controller('AngularSliderController', ['$scope', function($scope) {
         $scope.hValue = '50';
         // $scope.hOptions = {

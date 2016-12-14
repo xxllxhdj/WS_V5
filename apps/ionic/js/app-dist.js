@@ -1,5 +1,5 @@
 
-workStation.registerModule('ionic', [])
+workStation.registerModule('ionicdm', [])
 
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider

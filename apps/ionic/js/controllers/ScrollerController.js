@@ -1,5 +1,5 @@
 
-angular.module('ionic')
+angular.module('ionicdm')
 .controller('ScrollerController', ['$scope',
     function ($scope) {
         $scope.data = {

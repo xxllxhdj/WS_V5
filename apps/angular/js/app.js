@@ -30,6 +30,11 @@ workStation.registerModule('angular', [])
             url: '/angularSlider',
             templateUrl: workStation.toAppsURL('tpls/angularSlider.html', 'angular'),
             controller: 'AngularSliderController'
+        })
+        .state('app.angularLoadingBar', {
+            url: '/angularLoadingBar',
+            templateUrl: workStation.toAppsURL('tpls/angularLoadingBar.html', 'angular'),
+            controller: 'AngularLoadingBarController'
         });
 
     $ocLazyLoadProvider.config({
@@ -43,7 +48,8 @@ workStation.registerModule('angular', [])
             name: 'angular.file',
             files: [
                 workStation.toAppsURL('js/controllers/AngularBMapController.js', 'angular'),
-                workStation.toAppsURL('js/controllers/AngularSliderController.js', 'angular')
+                workStation.toAppsURL('js/controllers/AngularSliderController.js', 'angular'),
+                workStation.toAppsURL('js/controllers/AngularLoadingBarController.js', 'angular')
             ]
         }]
     });

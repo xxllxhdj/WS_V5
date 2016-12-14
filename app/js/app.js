@@ -4,6 +4,7 @@ angular.module('WorkStation', [
     'oc.lazyLoad',
     'ngCordova',
     'ngDragDrop',
+    'angular-loading-bar',
 
     'ionicWS',
     'WorkStation.controllers',

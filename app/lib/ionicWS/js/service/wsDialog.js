@@ -1,11 +1,14 @@
 
 angular.module('ionicWS')
 
-.factory('wsDialog', ['wsToast', function (wsToast) {
+.factory('wsDialog', ['wsToast', 'cfpLoadingBar', function (wsToast, cfpLoadingBar) {
     return {
         toastTop: toastTop,
         toastCenter: toastCenter,
-        toastBottom: toastBottom
+        toastBottom: toastBottom,
+
+        showLoading: showLoading,
+        hideLoading: hideLoading
     };
     function toastTop (tips) {
         return wsToast.show({
@@ -27,5 +30,12 @@ angular.module('ionicWS')
             position: 'bottom',
             duration: 'short'
         });
+    }
+
+    function showLoading () {
+        cfpLoadingBar.start();
+    }
+    function hideLoading () {
+        cfpLoadingBar.complete();
     }
 }]);

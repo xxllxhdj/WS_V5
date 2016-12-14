@@ -50,6 +50,10 @@ a:focus {
 .platform-android.platform-cordova.status-bar-hide {
     margin-bottom: 20px; }
 
+.platform-android.platform-cordova:not(.fullscreen) #loading-bar .bar {
+    top: 64px;
+}
+
 .gradient-bar {
     background: -moz-linear-gradient(left, #f1743a 0%, #d6485e 100%);
     background: -webkit-gradient(linear, center left, center right, from(#f1743a), to(#d6485e));
@@ -80,6 +84,20 @@ a:focus {
 }
 
 /**********************************************************Common******************************************************/
+
+/*********************************************************child view***************************************************/
+
+.child-view .scroll-content {
+    bottom: 49px;
+}
+.child-view .has-footer {
+    bottom: 93px;
+}
+.child-view .bar-footer {
+    bottom: 49px;
+}
+
+/*********************************************************child view***************************************************/
 
 /*******************************************************fitImmersive***************************************************/
 
