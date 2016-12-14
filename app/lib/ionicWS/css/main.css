@@ -63,6 +63,11 @@
   -webkit-transition: all ease-in-out 250ms;
   transition: all ease-in-out 250ms; }
 
+#loading-bar,
+#loading-bar-spinner {
+    position: fixed;
+    z-index: 10002;
+}
 #loading-bar .bar {
     box-shadow: 0 0 10px rgba(34, 153, 221, 0.7);
     -webkit-transition: width 0.4s ease;
