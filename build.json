@@ -1,0 +1,18 @@
+{
+    "android": {
+        "debug": {
+            "keystore": "/local/workstation.keystore",
+            "storePassword": "xxlxxl",
+            "alias": "workstation.keystore",
+            "password" : "xxlxxl",
+            "keystoreType": ""
+        },
+        "release": {
+            "keystore": "/local/workstation.keystore",
+            "storePassword": "xxlxxl",
+            "alias": "workstation.keystore",
+            "password" : "xxlxxl",
+            "keystoreType": ""
+        }
+    }
+}

@@ -5,7 +5,7 @@
 node_modules/
 bower_components/
 platforms/
-plugins/
+/plugins/
 .tmp/
 /www/
 /wwws/
