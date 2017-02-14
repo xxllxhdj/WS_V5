@@ -7,7 +7,8 @@ const runSequence = require('run-sequence');
 
 const $ = gulpLoadPlugins({
     rename: {
-        'gulp-angular-templatecache': 'templateCache'
+        'gulp-angular-templatecache': 'templateCache',
+        'gulp-angular-filesort': 'fileSort'
     }
 });
 const reload = browserSync.reload;
@@ -77,7 +78,7 @@ gulp.task('extras', () => {
 gulp.task('clean', del.bind(null, ['.tmp', 'www']));
 
 gulp.task('serve', () => {
-    runSequence(['clean', 'wiredep'], () => {
+    runSequence(['clean', 'wiredep', 'injectjs'], () => {
         browserSync.init({
             notify: false,
             port: 9000,
@@ -129,6 +130,18 @@ gulp.task('wiredep', () => {
         .pipe(gulp.dest('app'));
 });
 
+gulp.task('injectjs', () => {
+    var partialsInjectOptions = {
+        starttag: '<!-- inject:js -->',
+        ignorePath: 'app',
+        addRootSlash: false
+    };
+
+    return gulp.src('app/*.html')
+        .pipe($.inject(gulp.src(['app/js/**/*.js']).pipe($.fileSort()), partialsInjectOptions))
+        .pipe(gulp.dest('app'));
+});
+
 // Lint CSS and JavaScript files.
 gulp.task('lint', function(done) {
     runSequence(['csslint', 'eslint'], done);
@@ -140,6 +153,6 @@ gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
 
 gulp.task('default', () => {
     return new Promise(resolve => {
-        runSequence(['clean', 'wiredep', 'templatecache'], 'build', resolve);
+        runSequence(['clean', 'wiredep', 'templatecache', 'injectjs'], 'build', resolve);
     });
 });
