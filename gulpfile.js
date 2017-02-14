@@ -47,9 +47,9 @@ gulp.task('html', () => {
 });
 
 gulp.task('images', () => {
-    return gulp.src('app/img/**/*')
+    return gulp.src('app/img/**/*', { base: 'app' })
         .pipe($.cache($.imagemin()))
-        .pipe(gulp.dest('www/img'));
+        .pipe(gulp.dest('www'));
 });
 
 gulp.task('fonts', function() {
