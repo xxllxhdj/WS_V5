@@ -56,7 +56,7 @@ angular.module('ionicWS')
             }
             scope.disable.submit = tmp;
 
-            scope.disable.zero = !scope.decimal && (scope.value.length === 0);
+            scope.disable.zero = (!scope.decimal && (scope.value.length === 0)) || /^0$/.test(scope.value);
             scope.disable.point = !scope.decimal || (scope.value.length === 0) || (scope.value.indexOf('.') !== -1);
         }
 
@@ -88,9 +88,9 @@ angular.module('ionicWS')
                     '<div class="col button" ng-repeat="key in keys" ng-disabled="disable.number" ng-click="onKey(key)">{{key}}</div>' +
                 '</div>' +
                 '<div class="row">' +
-                    '<div class="col button" ng-disabled="disable.point" ng-click="onKey(\'.\')">.</div>' +
+                    '<div class="col button" ng-disabled="disable.point" ng-click="onKey(\'.\')">&bull;</div>' +
                     '<div class="col button" ng-disabled="disable.zero" ng-click="onKey(\'0\')">0</div>' +
-                    '<div class="col button" ng-click="onClear()">C</div>' +
+                    '<div class="col button" ng-click="onClear()">清空</div>' +
                 '</div>' +
             '</div>' +
         '</div>';
