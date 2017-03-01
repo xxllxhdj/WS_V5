@@ -8,8 +8,14 @@ angular.module('ionicWS')
          * @name wsNumberpad#show
          * @description 创建并显示Numberpad.
          * @param {object} options 配置项如下:
-         *  - `{string=}` `animation` 动画.
-         *    Default: 'im-toast-fade-in'
+         *  - `{number=}` `value` 默认值.
+         *    Default: 0
+         *  - `{boolean=}` `decimal` 是否是小数.
+         *    Default: false
+         *  - `{number=}` `minValue` 最小值.
+         *    Default: 不检查
+         *  - `{number=}` `maxValue` 最大值.
+         *    Default: 不检查
          *  - `{boolean=}` `backdropClickToClose` 点击backdrop是否关闭toast.
          *    Default: true.
          *  - `{boolean=}` `hardwareBackButtonClose` 点击返回键是否关闭toast，适用于Android及类似的设备
@@ -23,7 +29,7 @@ angular.module('ionicWS')
 
         var scope = $rootScope.$new(true);
         scope.value = opts.value ? opts.value.toString() : '';
-        scope.decimal = true; // !!opts.decimal;
+        scope.decimal = !!opts.decimal;
 
         scope.keyss = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
 
@@ -35,28 +41,23 @@ angular.module('ionicWS')
             number: false
         };
 
+        updateDisable();
+
         function updateDisable() {
             scope.disable.backspace = scope.value.length === 0;
-            scope.disable.number = scope.value[0] === '0';
+            scope.disable.number = /^0$/.test(scope.value);
 
-            if (scope.value.length === 0) {
-                scope.disable.submit = true;
-                scope.disable.zero = !scope.decimal;
-                scope.disable.point = true;
-                return;
+            var tmp = (scope.value.length === 0) || /^0$/.test(scope.value) || /^0\.0*$/.test(scope.value);
+            if (opts.minValue) {
+                tmp = tmp || (parseFloat(scope.value) < opts.minValue);
             }
-            if (scope.value[0] === '0') {
-                scope.disable.submit = true;
-                scope.disable.zero = true;
-                scope.disable.point = false;
-                return;
+            if (opts.maxValue) {
+                tmp = tmp || (parseFloat(scope.value) > opts.maxValue);
             }
-            if (scope.value[scope.value.length - 1] === '.') {
-                scope.disable.submit = true;
-                scope.disable.zero = false;
-                scope.disable.point = true;
-                return;
-            }
+            scope.disable.submit = tmp;
+
+            scope.disable.zero = !scope.decimal && (scope.value.length === 0);
+            scope.disable.point = !scope.decimal || (scope.value.length === 0) || (scope.value.indexOf('.') !== -1);
         }
 
         scope.onKey = function (key) {
@@ -75,8 +76,8 @@ angular.module('ionicWS')
         var templateString =
         '<div class="ws-numberpad-view numberpad">' +
             '<div class="numberpad-hd">' +
-                '<button class="button button-clear">取消</button>' +
-                '<button class="button button-clear" ng-disabled="disable.submit">确认</button>' +
+                '<button class="button button-clear" ng-click="onCancel()">取消</button>' +
+                '<button class="button button-clear" ng-disabled="disable.submit" ng-click="onSubmit()">确认</button>' +
             '</div>' +
             '<div class="item item-icon-right numberpad-dp">' +
                 '<i class="icon ion-backspace-outline" ng-disabled="disable.backspace" ng-click="onBackspace()"></i>' +
@@ -87,7 +88,7 @@ angular.module('ionicWS')
                     '<div class="col button" ng-repeat="key in keys" ng-disabled="disable.number" ng-click="onKey(key)">{{key}}</div>' +
                 '</div>' +
                 '<div class="row">' +
-                    '<div class="col button" ng-disabled="!scope.decimal && disable.point" ng-click="onKey(\'.\')">.</div>' +
+                    '<div class="col button" ng-disabled="disable.point" ng-click="onKey(\'.\')">.</div>' +
                     '<div class="col button" ng-disabled="disable.zero" ng-click="onKey(\'0\')">0</div>' +
                     '<div class="col button" ng-click="onClear()">C</div>' +
                 '</div>' +
@@ -100,7 +101,21 @@ angular.module('ionicWS')
             scope: scope
         });
 
+        var hasSubmit = false;
+        scope.onCancel = function () {
+            modal.hide();
+        };
+        scope.onSubmit = function () {
+            hasSubmit = true;
+            modal.hide();
+        };
+
         scope.$on('numberpad.hidden', function () {
+            if (hasSubmit) {
+                defer.resolve(parseFloat(scope.value));
+            } else {
+                defer.reject();
+            }
             $timeout(function() {
                 modal.scope.$destroy();
                 modal.$el.remove();
