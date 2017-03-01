@@ -5,6 +5,7 @@ workStation.registerModule('ionicdm', ['ionicdm.controllers', 'ionicdm.services'
         //--endinject--//
         //--inject:js--//
         workStation.toAppsURL('js/controllers/controllers.js', 'ionic'),
+        workStation.toAppsURL('js/controllers/HomeController.js', 'ionic'),
         workStation.toAppsURL('js/controllers/HugeDataController.js', 'ionic'),
         workStation.toAppsURL('js/controllers/ScrollerController.js', 'ionic'),
         workStation.toAppsURL('js/services/services.js', 'ionic')
@@ -18,7 +19,8 @@ workStation.registerModule('ionicdm', ['ionicdm.controllers', 'ionicdm.services'
     $stateProvider
         .state('app.ionic', {
             url: '/ionic',
-            templateUrl: workStation.toAppsURL('tpls/home.html', 'ionic')
+            templateUrl: workStation.toAppsURL('tpls/home.html', 'ionic'),
+            controller: 'HomeController'
         })
         .state('app.hugeData', {
             url: '/hugedata',

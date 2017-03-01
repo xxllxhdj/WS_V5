@@ -81,7 +81,83 @@
 
 /****************************************************wsToast******************************************************/
 
-/***************************************************scrollSelector*****************************************************/
+/**************************************************wsNumberpad****************************************************/
+
+.modal-backdrop-bg {
+    -webkit-transition: opacity 300ms ease-in-out;
+    transition: opacity 300ms ease-in-out;
+    background-color: #000;
+    opacity: 0;
+}
+.active .numberpad-backdrop-bg {
+    opacity: 0.25;
+}
+
+.ws-numberpad-view {
+    display: block;
+    position: absolute;
+    z-index: 10;
+    overflow: hidden;
+    min-height: 100%;
+    background-color: #fff;
+    width: 100%;
+    top: auto;
+    bottom: 0;
+    min-height: 276px;
+    height: 276px;
+    border-top: 1px solid #909090;
+}
+
+.numberpad-hd {
+    background: #efefef;
+    border-bottom: 1px solid #ccc;
+}
+.numberpad-hd > .button {
+    color: #35ccf9;
+    min-height: 44px;
+}
+.numberpad-hd > .button:last-child {
+    float: right;
+}
+
+.numberpad-dp {
+    font-size: 26px;
+    padding: 12px 54px 12px 12px;
+    border-color: #ccc;
+}
+
+.numberpad-bd {
+    text-align: center;
+    font-size: 22px;
+}
+.numberpad-bd .row {
+    padding: 0;
+}
+.numberpad-bd .row + .row {
+    margin-top: 0;
+}
+.numberpad-bd .row .button {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    min-height: 46px;
+    height: 46px;
+    line-height: 46px;
+    border-radius: 0;
+    font-size: 22px;
+    padding: 0;
+    background-color: #fff;
+}
+.numberpad-bd .row .button:first-child {
+    border-left: none;
+}
+.numberpad-bd .row .button.activated {
+    background-color: #d1d5db;
+    border-color: #ccc;
+}
+
+/**************************************************wsNumberpad****************************************************/
+
+/*************************************************scrollSelector**************************************************/
 
 .scroll-selector {
     position: relative;
@@ -116,4 +192,4 @@
     border-bottom: 1px solid #dcdcdc;
 }
 
-/***************************************************scrollSelector*****************************************************/
+/*************************************************scrollSelector**************************************************/
