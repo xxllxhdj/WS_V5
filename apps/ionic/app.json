@@ -1,0 +1,8 @@
+{
+    "AppID": "ionic",
+    "Name": "ionic",
+    "DisplayImage": "ionic.png",
+    "MouseDownImage": "ionic.png",
+    "Version": "1.0.0",
+    "Dependency": "1.0.0"
+}

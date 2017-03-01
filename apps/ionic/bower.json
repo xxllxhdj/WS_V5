@@ -1,0 +1,12 @@
+{
+  "name": "ionic",
+  "version": "1.0.0",
+  "description": "ionic",
+  "main": "app.js",
+  "keywords": [
+    "ionic"
+  ],
+  "license": "MIT",
+  "dependencies": {
+  }
+}

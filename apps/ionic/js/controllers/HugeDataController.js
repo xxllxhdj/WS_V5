@@ -1,5 +1,6 @@
 
-angular.module('ionicdm')
+angular.module('ionicdm.controllers')
+
 .controller('HugeDataController', ['$scope',
     function ($scope) {
         $scope.data = {
