@@ -83,7 +83,7 @@
 
 /**************************************************wsNumberpad****************************************************/
 
-.modal-backdrop-bg {
+.numberpad-backdrop-bg {
     -webkit-transition: opacity 300ms ease-in-out;
     transition: opacity 300ms ease-in-out;
     background-color: #000;
@@ -93,7 +93,7 @@
     opacity: 0.4;
 }
 
-.ws-numberpad-view {
+.numberpad {
     display: block;
     position: absolute;
     z-index: 10;

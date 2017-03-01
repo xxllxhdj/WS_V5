@@ -74,7 +74,7 @@ angular.module('ionicWS')
         };
 
         var templateString =
-        '<div class="ws-numberpad-view numberpad">' +
+        '<div class="numberpad">' +
             '<div class="numberpad-hd">' +
                 '<button class="button button-clear" ng-click="onCancel()">取消</button>' +
                 '<button class="button button-clear" ng-disabled="disable.submit" ng-click="onSubmit()">确认</button>' +
