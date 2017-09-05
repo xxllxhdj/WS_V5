@@ -28,27 +28,27 @@ angular.module('ionicdm')
 
             function refreshCalendar() {
                 var opts = scope.option;
-                scope.calRows = processCalendar(opts.startDate, opts.endDate);
+                scope.calRows = processCalendar(opts.start, opts.end);
             }
 
-            function processCalendar(startDate, endDate) {
-                var startWeekDay = startDate.getDay(),
+            function processCalendar(start, end) {
+                var startWeekDay = start.getDay(),
                     calRows = [], tmpRow = [], i;
                 for(i = 0; i < startWeekDay; i++) {
                     tmpRow.push({});
                 }
-                var tmpStartDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()),
-                    tmpendDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()),
+                var tmpStart = new Date(start.getFullYear(), start.getMonth(), start.getDate()),
+                    tmpEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate()),
                     j = startWeekDay;
-                while(tmpStartDate <= tmpendDate) {
+                while(tmpStart <= tmpEnd) {
                     if (j === 7) {
                         j = 0;
                         calRows.push(tmpRow);
                         tmpRow = [];
                     }
-                    tmpRow.push({ text: getDateText(tmpStartDate) });
+                    tmpRow.push({ text: getDateText(tmpStart) });
                     j++;
-                    tmpStartDate = new Date(tmpStartDate.getFullYear(), tmpStartDate.getMonth(), tmpStartDate.getDate() + 1);
+                    tmpStart.setDate(tmpStart.getDate() + 1);
                 }
                 if (j > 0) {
                     for(i = j; i < 7; i++) {

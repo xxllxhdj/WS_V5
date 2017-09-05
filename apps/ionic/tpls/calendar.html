@@ -1,5 +1,20 @@
 <ion-view title="Calendar">
     <ion-content>
+        <div class="cal-header">
+            <table>
+                <tbody>
+                    <tr>
+                        <td>日</td>
+                        <td>一</td>
+                        <td>二</td>
+                        <td>三</td>
+                        <td>四</td>
+                        <td>五</td>
+                        <td>六</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <ion-slide-box does-continue="true" show-pager="false" on-slide-changed="onSlideChange(index)">
             <ion-slide>
                 <ng-calendar cal-option="calOption1"></ng-calendar>

@@ -7,6 +7,14 @@
 
 /**********************************************************calendar****************************************************/
 
+.cal-header > table {
+    width: 100%;
+}
+.cal-header > table td {
+    line-height: 28px;
+    text-align: center;
+}
+
 .cal-table {
     display: table;
     width: 100%;
