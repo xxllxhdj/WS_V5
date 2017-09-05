@@ -1,5 +1,5 @@
 
-angular.module('ionicdm.controllers')
+angular.module('ionicdm')
 
 .controller('HomeController', ['$scope', 'wsNumberpad', 'wsDialog', function ($scope, wsNumberpad, wsDialog) {
     $scope.showNumberpad = function () {

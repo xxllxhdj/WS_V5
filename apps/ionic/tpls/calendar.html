@@ -1,0 +1,16 @@
+<ion-view title="Calendar">
+    <ion-content>
+        <ion-slide-box does-continue="true" show-pager="false" on-slide-changed="onSlideChange(index)">
+            <ion-slide>
+                <ng-calendar cal-option="calOption1"></ng-calendar>
+            </ion-slide>
+            <ion-slide>
+                <ng-calendar cal-option="calOption2"></ng-calendar>
+            </ion-slide>
+            <ion-slide>
+                <ng-calendar cal-option="calOption3"></ng-calendar>
+            </ion-slide>
+        </ion-slide-box>
+        <ng-calendar cal-option="calOption"></ng-calendar>
+    </ion-content>
+</ion-view>

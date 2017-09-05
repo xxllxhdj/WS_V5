@@ -3,3 +3,28 @@
 
 
 /***********************************************************home*******************************************************/
+
+
+/**********************************************************calendar****************************************************/
+
+.cal-table {
+    display: table;
+    width: 100%;
+}
+.cal-row {
+    white-space: nowrap;
+    display: table-row;
+}
+.cal-day {
+    width: 14.2857%;
+    line-height: 35px;
+    position: relative;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    border-top: 1px solid #eee;
+    font-size: 14px;
+    color: #666;
+}
+
+/**********************************************************calendar****************************************************/
