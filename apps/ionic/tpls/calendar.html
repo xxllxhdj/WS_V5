@@ -17,15 +17,15 @@
         </div>
         <ion-slide-box does-continue="true" show-pager="false" on-slide-changed="onSlideChange(index)">
             <ion-slide>
-                <ng-calendar cal-option="calOption1"></ng-calendar>
+                <ng-calendar cal-section="calSection1"></ng-calendar>
             </ion-slide>
             <ion-slide>
-                <ng-calendar cal-option="calOption2"></ng-calendar>
+                <ng-calendar cal-section="calSection2"></ng-calendar>
             </ion-slide>
             <ion-slide>
-                <ng-calendar cal-option="calOption3"></ng-calendar>
+                <ng-calendar cal-section="calSection3"></ng-calendar>
             </ion-slide>
         </ion-slide-box>
-        <ng-calendar cal-option="calOption"></ng-calendar>
+        <ng-calendar cal-section="calSection" cal-option="calOption" cal-select="calSelect(dates)"></ng-calendar>
     </ion-content>
 </ion-view>

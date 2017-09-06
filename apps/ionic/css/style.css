@@ -35,4 +35,32 @@
     color: #666;
 }
 
+.cal-checkbox {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1px;
+}
+.cal-checkbox input {
+    width: 18px;
+    height: 18px;
+}
+.cal-checkbox input:before {
+    border-radius: 0;
+}
+.cal-checkbox input:checked:before {
+    background: #ddd;
+    border-color: #ddd;
+}
+.cal-checkbox input:checked:before,
+.cal-checkbox input:checked + .checkbox-icon:before {
+    border-width: 1px;
+}
+.cal-checkbox input:after {
+    top: 5px;
+    left: 4px;
+    width: 10px;
+    height: 5px;
+}
+
 /**********************************************************calendar****************************************************/
