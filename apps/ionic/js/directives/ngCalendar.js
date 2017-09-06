@@ -12,9 +12,10 @@ angular.module('ionicdm')
         template:
         '<div class="cal-table">' +
             '<div class="cal-row" ng-repeat="calRow in calRows">' +
-                '<div class="cal-day" ng-repeat="col in calRow" ng-class="{selected: col.selected, abnormal: col.abnormal}">' +
-                    '<div ng-if="col.date">' +
-                        '<div>{{col.text}}</div>' +
+                '<div class="cal-day" ng-repeat="col in calRow" ng-class="{abnormal: col.abnormal}">' +
+                    '<div class="cal-day-i" ng-if="col.date">' +
+                        '<div class="cal-day-fg">{{col.text}}</div>' +
+                        '<div class="cal-day-txt" ng-repeat="mark in col.marks track by $index" ng-style="mark.style">{{mark.text}}</div>' +
                         '<div class="checkbox cal-checkbox" ng-if="checkable">' +
                             '<input type="checkbox" ng-model="col.selected" ng-change="selectChange(col)">' +
                         '</div>' +
@@ -35,6 +36,7 @@ angular.module('ionicdm')
             }, function(value) {
                 if (value) {
                     redrawCalendar();
+                    refreshOption();
                 }
             }, true);
 
@@ -114,6 +116,9 @@ angular.module('ionicdm')
 
             function refreshOption() {
                 var opts = scope.option;
+                if (!opts) {
+                    return;
+                }
                 // 更新选择项
                 scope.checkable = opts.selectType !== -1;
                 uncheckAll();
@@ -123,6 +128,16 @@ angular.module('ionicdm')
                 var abnormals = opts.abnormals || [];
                 angular.forEach(abnormals, function(d) {
                     _calObj[d.getTime()].abnormal = true;
+                });
+                // 更新文字标记
+                var marks = opts.marks || [];
+                angular.forEach(scope.calRows, function(calRow) {
+                    angular.forEach(calRow, function(col) {
+                        col.marks = [];
+                    });
+                });
+                angular.forEach(marks, function(mark) {
+                    _calObj[mark.d.getTime()].marks.push({ style: mark.style, text: mark.text });
                 });
             }
 
@@ -148,7 +163,7 @@ angular.module('ionicdm')
                         tmpRow = [];
                     }
                     var d = new Date(tmpStart);
-                    _calObj[d.getTime()] = { date: d, text: getDateText(tmpStart), marks: [] };
+                    _calObj[d.getTime()] = { date: d, text: getDateText(tmpStart) };
                     tmpRow.push(_calObj[d.getTime()]);
                     j++;
                     tmpStart.setDate(tmpStart.getDate() + 1);
