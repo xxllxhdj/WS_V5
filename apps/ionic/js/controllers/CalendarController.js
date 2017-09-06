@@ -3,7 +3,8 @@ angular.module('ionicdm')
 
 .controller('CalendarController', ['$scope', function ($scope) {
     $scope.calOption = {
-        selectType: 2
+        selectType: 2,
+        abnormals: [new Date(2017, 8, 10), new Date(2017, 8, 15)]
     };
 
     $scope.calSection1 = {

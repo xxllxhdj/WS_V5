@@ -99,7 +99,7 @@ angular.module('ionicdm')
                     uncheckAll();
                     while(startDate <= endDate) {
                         _selectDates.push(new Date(startDate));
-                        _calObj[startDate].selected = true;
+                        _calObj[startDate.getTime()].selected = true;
                         startDate.setDate(startDate.getDate() + 1);
                     }
                     _lastSelectCol = null;
@@ -119,12 +119,20 @@ angular.module('ionicdm')
                 uncheckAll();
                 _selectDates = [];
                 _lastSelectCol = null;
+                // 更新异常标记
+                var abnormals = opts.abnormals || [];
+                angular.forEach(abnormals, function(d) {
+                    _calObj[d.getTime()].abnormal = true;
+                });
             }
 
             function processCalendar(start, end) {
                 if (!angular.isDate(start) || !angular.isDate(end)) {
                     return;
                 }
+
+                _calObj = {};
+
                 var startWeekDay = start.getDay(),
                     calRows = [], tmpRow = [], i;
                 for(i = 0; i < startWeekDay; i++) {
@@ -140,8 +148,8 @@ angular.module('ionicdm')
                         tmpRow = [];
                     }
                     var d = new Date(tmpStart);
-                    _calObj[d] = { date: new Date(tmpStart), text: getDateText(tmpStart), marks: [] };
-                    tmpRow.push(_calObj[d]);
+                    _calObj[d.getTime()] = { date: d, text: getDateText(tmpStart), marks: [] };
+                    tmpRow.push(_calObj[d.getTime()]);
                     j++;
                     tmpStart.setDate(tmpStart.getDate() + 1);
                 }
